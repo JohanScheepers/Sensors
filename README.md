@@ -16,6 +16,8 @@ All nodes (except the Gateway) share a common base architecture:
 | <img src="./src/RainMe/complete-weather-station-diy-kit-anemometer-wind-vane-rain-bucket-dht22.webp" width="600" /> | <img src="./src/TroughMe/trough_controller.png" width="600" /> | <img src="./src/DamMe/dam_controller.png" width="600" /> |
 | **Fridge Monitor (FridgeMe)** | **Water Level (TankMe)** | **Mesh Gateway (GatewayMe)** |
 | <img src="./src/FridgeMe/fridge_controller.png" width="600" /> | <img src="./src/TankMe/tank_controller.png" width="600" /> | <img src="./GatewayMe/gateway_controller.png" width="600" /> |
+| **Mesh Module Block** | | |
+| <img src="./Mesh/block.png" width="600" /> | | |
 
 ## Sensor Catalog
 
@@ -33,6 +35,9 @@ Real-time security and operational status for gates and doors.
 
 ### [GatewayMe](./GatewayMe)
 The primary bridge between the local mesh network and the internet via Ethernet.
+
+### [Mesh Network](./Mesh)
+The low-power, long-range LoRa communication backbone for all sensor nodes.
 
 ### [MoistureMe](./src/MoistureMe)
 Professional SDI-12 soil monitor for multi-depth moisture and temperature profiling.

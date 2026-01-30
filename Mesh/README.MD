@@ -1,24 +1,28 @@
-# Mesh Network
+# Mesh Network Module
+
+A low-power, long-range LoRa communication backbone designed for the autonomous IOT sensor network.
 
 ## Overview
-The Mesh Network is a low-power, long-range communication protocol that allows the sensor nodes to communicate with each other and with the Gateway. It is built on the LoRa protocol and is designed to work in harsh environments.
+The Mesh Network module provides the fundamental communication layer for all sensor nodes, allowing for robust, long-range data transmission even in harsh or remote environments. It implements a meshed protocol that ensures data from distal nodes can hop through the network to reach the GatewayMe bridge.
 
 ## Hardware Specification
-- **MCU**: to be announced
-- **Radio**: LoRa / RF coordinate module (SMA Antenna connector)
-- **Power**: battery powered
+- **Architecture**: Specialized LoRa System-on-Chip (SoC)
+- **Radio Frequency**: Dual-Band (Sub-GHz & 2.4 GHz)
+- **Interface**: UART (AAPI / SAPI Support)
+- **Power**: Battery-optimized (2.5V - 3.3V)
+- **Antenna**: SMA Connector (50Ω impedance)
 
 <img src="./block.png" width="600" />
 
 ## Features
-- **Low Power**: Optimized for long battery life
-- **Long Range**: Capable of communicating over long distances
-- **Mesh Networking**: Allows sensor nodes to communicate with each other and with the Gateway
-- **Battery Powered**: Can be deployed in remote locations without access to power
+- **Ultra-Low Power**: Deep sleep and optimized transmit modes for multi-year battery operation.
+- **Dynamic Routing**: Automatic mesh forming and self-healing network topology.
+- **Dual-Band Support**: Operates in sub-GHz (868/915 MHz) for maximum range and 2.4 GHz for high-speed local links.
+- **Compact LGA Footprint**: Designed for surface-mount integration into sensor node PCBs.
 
-## Footprint
+## Footprint & PCB Design
 
-The suggested footprint consists in 31 LGA pads positioned as following
+The suggested footprint consists of 31 LGA pads.
 
 <img src="./Mesh_footprint.png" width="600" />
 
@@ -37,7 +41,7 @@ placed as far as possible and adequately decoupled.
 - The ground pins of the module shall be connected to a solid ground plane.
 
 
-## Module pinout
+## Module Pinout
 
 
 |Number |Pin Name| Type| Description|
@@ -74,39 +78,33 @@ placed as far as possible and adequately decoupled.
 |30| RF_SIG| RF| RF sub-GHz input/output|
 |31| GND7 |GND| Ground|
 
-## Electrical characteristic
+## Electrical Characteristics
 
 ### Absolute Maximum Ratings
-
-|Parameter |Value| Unit|
+| Parameter | Value | Unit |
 |---|---|---|
-|Power Supply Voltage |+3.6 |V|
-|Voltage on any pin |+3.6 |V|
-|Rf input power (Pmax) |0 |dBm|
-|Storage Temp. Range |-40 ~ +85 |ºC|
+| Power Supply Voltage | +3.6 | V |
+| Voltage on any pin | +3.6 | V |
+| RF Input Power (Pmax) | 0 | dBm |
+| Storage Temp. Range | -40 ~ +85 | ºC |
 
 ### Operating Conditions
-
-|Parameter |Min |Max |Unit|
+| Parameter | Min | Max | Unit |
 |---|---|---|---|
-|Power Supply Voltage (Vcc) |+2.5 |+3.3 |V|
-|Operating Temperature range |-40 |+85 |°C|
-|Logic Input Low Voltage Vss |0.3*Vcc |V|
-|Logic Input High Voltage |0.7*Vcc |Vcc |V|
-|Logic Output Low Level Vss |Vss |+ 0.45 |V|
-|Logic Output High Level |Vcc-0.45 |Vcc |V|
+| Power Supply Voltage (Vcc) | +2.5 | +3.3 | V |
+| Operating Temperature range | -40 | +85 | °C |
+| Logic Input High Voltage | 0.7 * Vcc | Vcc | V |
+| Logic Output High Level | Vcc - 0.45 | Vcc | V |
 
 ### Power Consumption
-
-|Mode |Typ. value |Unit|
+| Mode | Typ. Value | Unit |
 |---|---|---|
-|Transmit @+11.5 dBm (2.4 GHz)|23 |mA|
-|Transmit @+14 dBm (868 MHz)|27 |mA|
-|Transmit @+22 dBm (915 MHz)|124 |mA|
-|Receive (2.4 GHz)|7 |mA|
-|Receive (868 MHz)|6 |mA|
+| Transmit @+14 dBm (868 MHz) | 27 | mA |
+| Transmit @+22 dBm (915 MHz) | 124 | mA |
+| Receive (Sub-GHz) | 6 | mA |
+| Deep Sleep | < 2 | µA |
 
-### RF characteristics
+## RF Performance
 
 |Condition |Min. |Typ. |Max. |Unit|
 |----------|-----|-----|-----|------|
