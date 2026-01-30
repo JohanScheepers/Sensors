@@ -34,7 +34,7 @@ struct SensorData {
   float temperature;
   float humidity;
   float pressure;
-  float rainfall;
+  double rainfall;      // Running total mm since boot
   float windSpeed;
   float windGust;
   int windDirection;

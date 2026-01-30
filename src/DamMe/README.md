@@ -5,7 +5,7 @@ A non-contact water level monitoring solution designed for dams, reservoirs, or 
 ## Overview
 DamMe utilizes high-frequency sound waves to measure the distance to the water surface. This non-contact method is ideal for environments where sensors cannot be easily submerged or where water debris might interfere with contact sensors.
 
-![Dam Controller](./dam_controller_1769778753801.png)
+<img src="./dam_controller.png" width="600" />
 
 ## Hardware Specifications
 - **MCU**: ARM

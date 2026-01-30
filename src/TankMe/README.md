@@ -5,7 +5,7 @@ A hydrostatic pressure-based solution for monitoring water levels in large stora
 ## Overview
 TankMe measures the hydrostatic pressure of the water column to calculate the precise level in large storage tanks. It is capable of monitoring depths up to 10 meters with high precision.
 
-![Tank Controller](./tank_controller.png)
+<img src="./tank_controller.png" width="600" />
 
 ## Hardware Specifications
 - **MCU**: ARM
