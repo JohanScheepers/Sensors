@@ -9,6 +9,7 @@
 #define SENSOR_TYPE "TempMe"
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000
+#define SEALEVELPRESSURE_HPA (1013.25)
 
 // --- Hardware ---
 Adafruit_BME280 bme;

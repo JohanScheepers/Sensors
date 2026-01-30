@@ -1,55 +1,51 @@
-# Sensor
+# IOT Sensor Network
 
-These are the sensors required for my IOT project.
+A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors, these nodes communicate via a meshed UART JSON protocol.
 
-## [GatewayMe](./GatewayMe)
+## System Architecture
 
-This will be the main gateway for the mesh network. It will be connected to the internet via Ethernet and will act as a bridge between the mesh network and the internet.
+All nodes (except the Gateway) share a common base architecture:
+- **Environment**: Bosch BME280 (Temp, Humidity, Pressure)
+- **Messaging**: Standardized JSON over UART (115200 baud)
+- **Power**: Optimized for battery and low-power mesh operation
 
-## [TempMe](./TempMe)
+## Sensor Catalog
 
-Using a BME690 for VOCs, barometric pressure, humidity, and temperature in a single, compact package.
+### [GatewayMe](./GatewayMe)
+The primary bridge between the local mesh network and the internet via Ethernet.
 
-This will also act as the smallest device and acts as a repeater for the mesh network and the base for most of the other sensors. It will have a port where you can plug in other sensors. It will be battery powered.
+### [TempMe](./src/TempMe)
+The base environmental node and mesh repeater. Measures temperature, humidity, pressure, and altitude.
 
-## [TankMe](./TankMe)
+### [TankMe](./src/TankMe)
+Monitors water levels in large tanks (0-10m) using hydrostatic pressure sensing.
 
-This will be a TempMe, port populated with a water pressure level sensor(0-10m).
+### [DamMe](./src/DamMe)
+Non-contact water level monitoring for dams and open water using ultrasonic ranging.
 
-## [DamMe](./DamMe)
+### [TroughMe](./src/TroughMe)
+Precision low-range monitoring (0-1.5m) for livestock drinking troughs.
 
-This will be a TempMe, port populated with a ultrasonic distance sensor.
+### [FridgeMe](./src/FridgeMe)
+Dual-zone monitoring for cold storage, featuring an external temperature probe.
 
-## [TroughMe](./TroughMe)
+### [RainMe](./src/RainMe)
+Automated precipitation tracking using a tipping bucket mechanism.
 
-This will be a TempMe, port populated with a water pressure level sensor (0-1.5m).
+### [GateMe](./src/GateMe)
+Real-time security and operational status for gates and doors.
 
-# [FridgeMe](./FridgeMe)
+### [SwitchMe](./src/SwitchMe)
+Remote-controlled logic output for activating external equipment.
 
-This will be a TempMe, port populated with external temperature sensor probe. And will be placed next to the fridge
+### [ValveMe](./src/ValveMe)
+Automated flow control for 12VDC solenoid valves.
 
-## [RainMe](./RainMe)
+### [MoistureMe](./src/MoistureMe)
+Corrosion-resistant soil hydration monitoring for precision irrigation.
 
-This will be a TempMe, port populated with reed switch (used with a tipping bucket rain gauge, not included).
+### [FenceMe](./src/FenceMe)
+Safety-critical monitoring for electric fences up to 12kV.
 
-## [GateMe](./GateMe)
-
-This will be a TempMe, port populated with magnetic contact switch.
-
-## [SwitchMe](./SwitchMe)
-
-This will be a TempMe, port will be TTL high/low GPIO.
-
-## [ValveMe](./ValveMe)
-
-This will be a TempMe, port will be 12VDC solenoid valve.
-
-## [MoistureMe](./MoistureMe)
-
-This will be a TempMe, port will be SI-12 port populated with a moisture sensor.
-
-## [FenceMe](./FenceMe)
-
-This will be a TempMe, port populated with a high voltage sensor (up 12kV). (https://github.com/kiu/lofence)
-
-
+---
+*Developed with PlatformIO for professional ARM-based embedded development.*

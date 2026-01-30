@@ -11,6 +11,7 @@
 #define SENSOR_READ_INTERVAL 60000 
 #define PRESSURE_PIN A0
 #define PRESSURE_VCC 5.0
+#define PRESSURE_RANGE_KPA 15.0
 
 
 // --- Hardware ---

@@ -1,12 +1,34 @@
-# FenceMe
+# FenceMe - High Voltage Fence Monitor
 
-Based on TempMe, with a high voltage sensor (up to 12kV).
+A critical safety and operational node for monitoring electric fence health.
+
+## Overview
+FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It provides immediate alerts if the fence voltage drops below a safe threshold, ensuring security and livestock containment.
+
+## Hardware Specifications
+- **MCU**: ARM
+- **Environment Sensor**: BME280 (I2C 0x76)
+- **HV Sensor**: Voltage Divider + Optocoupler isolation circuit
+- **Interface**: Analog Pin **A2**, GPIO 12 (Alert LED)
+- **Max Input**: 12 kV (Scalable)
+
+## JSON UART Protocol
+```json
+{
+  "id": "FEN01",
+  "type": "FenceMe",
+  "t_c": 21.30,
+  "h_pct": 52.00,
+  "p_hpa": 1012.50,
+  "fen_kv": 8.45
+}
+```
 
 ## Features
-- BME280 for environmental monitoring.
-- High voltage sensor for electric fence monitoring.
-- Battery powered mesh repeater.
+- **High Voltage Isolation**: Designed with optoisolation to protect the MCU from kV surges.
+- **Continuous Monitoring**: Tracks peak pulse voltage.
+- **Visual & Remote Alerts**: Local alert LED and JSON push upon low-voltage detection (<3kV default).
+- **Historical Analysis**: Correlation of fence voltage with environmental moisture (humidity/rain).
 
-Reference: [lofence](https://github.com/kiu/lofence)
-
-![Controller Image](controller_image.png)
+> [!CAUTION]
+> Electric fences carry high voltages. Ensure all connections follow strict safety guidelines and proper hardware isolation is used.
