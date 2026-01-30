@@ -11,25 +11,11 @@ All nodes (except the Gateway) share a common base architecture:
 
 ## Hardware Visuals
 
-````carousel
-![RainMe Weather Station](./src/RainMe/complete-weather-station-diy-kit-anemometer-wind-vane-rain-bucket-dht22.webp)
-**RainMe Weather Station**
-<!-- slide -->
-![TroughMe Controller](./src/TroughMe/trough_controller.png)
-**TroughMe Controller**
-<!-- slide -->
-![DamMe Controller](./src/DamMe/dam_controller.png)
-**DamMe Controller**
-<!-- slide -->
-![FridgeMe Controller](./src/FridgeMe/fridge_controller.png)
-**FridgeMe Controller**
-<!-- slide -->
-![TankMe Controller](./src/TankMe/tank_controller.png)
-**TankMe Controller**
-<!-- slide -->
-![GatewayMe Controller](./GatewayMe/gateway_controller.png)
-**GatewayMe Controller**
-````
+| Weather Station (RainMe) | Trough Monitor (TroughMe) | Dam Monitor (DamMe) |
+|:---:|:---:|:---:|
+| ![RainMe](./src/RainMe/complete-weather-station-diy-kit-anemometer-wind-vane-rain-bucket-dht22.webp) | ![TroughMe](./src/TroughMe/trough_controller.png) | ![DamMe](./src/DamMe/dam_controller.png) |
+| **Fridge Monitor (FridgeMe)** | **Water Level (TankMe)** | **Mesh Gateway (GatewayMe)** |
+| ![FridgeMe](./src/FridgeMe/fridge_controller.png) | ![TankMe](./src/TankMe/tank_controller.png) | ![GatewayMe](./GatewayMe/gateway_controller.png) |
 
 ## Sensor Catalog
 
