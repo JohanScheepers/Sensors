@@ -5,6 +5,9 @@ A comprehensive monitoring station for rainfall, wind speed, wind gust, and wind
 ## Overview
 RainMe transforms the standard environmental monitor into a high-performance weather station. It tracks precipitation via a tipping bucket mechanism and manages a full anemometer and wind vane set for atmospheric kinetic data.
 
+![Weather Station Kit](./complete-weather-station-diy-kit-anemometer-wind-vane-rain-bucket-dht22.webp)
+![Weather Station Component](./KIT-16274-003-500x500.webp)
+
 ## Hardware Specifications
 - **MCU**: ARM
 - **Environment Sensor**: BME280 (I2C 0x76)

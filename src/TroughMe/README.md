@@ -5,6 +5,8 @@ A precision low-range water level monitor designed specifically for livestock tr
 ## Overview
 TroughMe uses a high-sensitivity pressure sensor optimized for shallow depths. It provides granular measurements for water levels up to 1.5 meters, ensuring livestock have constant access to water.
 
+![Trough Controller](./trough_controller.png)
+
 ## Hardware Specifications
 - **MCU**: ARM
 - **Environment Sensor**: BME280 (I2C 0x76)

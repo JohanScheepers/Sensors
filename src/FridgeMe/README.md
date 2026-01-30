@@ -5,6 +5,8 @@ A specialized temperature monitor for fridges, freezers, and cold store rooms.
 ## Overview
 FridgeMe combines ambient environment monitoring with a highly accurate remote temperature probe. This allows the main unit to stay outside the refrigerated zone while the probe monitors critical internal temperatures.
 
+![Fridge Controller](./fridge_controller_1769778820964.png)
+
 ## Hardware Specifications
 - **MCU**: ARM
 - **Ambient Sensor**: BME280 (I2C 0x76)

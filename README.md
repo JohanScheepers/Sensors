@@ -9,6 +9,40 @@ All nodes (except the Gateway) share a common base architecture:
 - **Messaging**: Standardized JSON over UART (115200 baud)
 - **Power**: Optimized for battery and low-power mesh operation
 
+## Hardware Visuals
+
+````carousel
+```markdown
+// Weather Station (RainMe)
+![RainMe Weather Station](./src/RainMe/complete-weather-station-diy-kit-anemometer-wind-vane-rain-bucket-dht22.webp)
+```
+<!-- slide -->
+```markdown
+// Trough Monitor (TroughMe)
+![TroughMe Controller](./src/TroughMe/trough_controller_1769778774982.png)
+```
+<!-- slide -->
+```markdown
+// Dam Monitor (DamMe)
+![DamMe Controller](./src/DamMe/dam_controller_1769778753801.png)
+```
+<!-- slide -->
+```markdown
+// Fridge Monitor (FridgeMe)
+![FridgeMe Controller](./src/FridgeMe/fridge_controller_1769778820964.png)
+```
+<!-- slide -->
+```markdown
+// Water Level Monitor (TankMe)
+![TankMe Controller](./src/TankMe/tank_controller.png)
+```
+<!-- slide -->
+```markdown
+// Mesh Gateway (GatewayMe)
+![GatewayMe Controller](./GatewayMe/gateway_controller.png)
+```
+````
+
 ## Sensor Catalog
 
 ### [GatewayMe](./GatewayMe)
