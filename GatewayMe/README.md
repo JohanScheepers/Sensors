@@ -1,25 +1,25 @@
-# GatewayMe - Separate Configuration
+# GatewayMe - Mesh Network Bridge
 
-The GatewayMe gateway is **not** part of the standard PlatformIO sensor build configuration. It has different requirements:
+The primary coordinator and internet gateway for the IOT sensor network.
 
-## Hardware Specification
-- **Connectivity**: 1x RJ45 Ethernet Port
-- **Power**: AC 110/220V
-- **Antenna**: 1x SMA connector for mesh network antenna
-- **Purpose**: Acts as the main bridge between the mesh network and the internet
+## Overview
+GatewayMe serves as the central bridge between the local autonomous mesh network and the internet. It aggregates JSON telemetry from all sensor nodes and forwards it to the cloud backend via a secure Ethernet connection.
+
+## Hardware Specifications
+- **Connectivity**: Integrated RJ45 Ethernet Port (W5500 or similar)
+- **Mesh Radio**: LoRa / RF coordinate module (SMA Antenna connector)
+- **Power**: Standard AC 110/220V with DC regulation
+- **Indication**: Power, Link, and Data RX/TX LEDs
 
 ## Build Configuration
+Note that **GatewayMe** is built as a separate project from the sensor nodes due to its unique networking stack requirements.
 
-GatewayMe requires a separate build configuration due to:
-- Different hardware platform (Ethernet-capable board)
-- Different firmware requirements (gateway vs. sensor node)
-- Network stack dependencies
-
-> [!NOTE]
-> Create a separate PlatformIO project or build configuration for GatewayMe if needed.
+- **Network Stack**: DHCP/Static IP Ethernet support
+- **Data Protocol**: JSON parsing and MQTT/HTTP passthrough
+- **Architecture**: Specialized Ethernet-capable board (e.g., STM32 Nucleo with Ethernet)
 
 ## Features
-- Ethernet connectivity for internet access
-- Mesh network coordinator
-- Data aggregation from sensor nodes
-- Cloud/server communication bridge
+- **Central Coordinator**: Manages mesh network routing and node registration.
+- **Ethernet Persistence**: Optimized for long-term stable internet connectivity.
+- **Data Aggregator**: Buffers and serializes incoming node data for backend transmission.
+- **Remote Commands**: Capable of sending OTA commands (e.g., "ON/OFF", "OPEN/CLOSE") back into the mesh network.

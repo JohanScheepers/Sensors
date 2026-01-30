@@ -30,7 +30,7 @@ Precision low-range monitoring (0-1.5m) for livestock drinking troughs.
 Dual-zone monitoring for cold storage, featuring an external temperature probe.
 
 ### [RainMe](./src/RainMe)
-Automated precipitation tracking using a tipping bucket mechanism.
+Weather station node monitoring rainfall, wind speed/gust, and wind direction.
 
 ### [GateMe](./src/GateMe)
 Real-time security and operational status for gates and doors.
@@ -42,7 +42,7 @@ Remote-controlled logic output for activating external equipment.
 Automated flow control for 12VDC solenoid valves.
 
 ### [MoistureMe](./src/MoistureMe)
-Corrosion-resistant soil hydration monitoring for precision irrigation.
+Professional SDI-12 soil monitor for multi-depth moisture and temperature profiling.
 
 ### [FenceMe](./src/FenceMe)
 Safety-critical monitoring for electric fences up to 12kV.

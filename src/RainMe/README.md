@@ -1,16 +1,17 @@
-# RainMe - Rain Gauge Node
+# RainMe - Weather Station Node
 
-An automated rainfall monitoring station using a tipping bucket mechanism.
+A comprehensive monitoring station for rainfall, wind speed, wind gust, and wind direction.
 
 ## Overview
-RainMe interfaces with a reed-switch based tipping bucket to measure precipitation. It integrates environmental telemetry with real-time rainfall data to provide a complete weather profile.
+RainMe transforms the standard environmental monitor into a high-performance weather station. It tracks precipitation via a tipping bucket mechanism and manages a full anemometer and wind vane set for atmospheric kinetic data.
 
 ## Hardware Specifications
 - **MCU**: ARM
 - **Environment Sensor**: BME280 (I2C 0x76)
-- **Rain Sensor**: Magnetic Reed Switch (Interrupt driven)
-- **Interface**: Pin **GPIO 3** (Internal Pull-up)
-- **Detection**: Falling Edge Interrupt
+- **Rain Sensor**: Tipping Bucket (Pin **GPIO 3**)
+- **Anemometer**: Wind Speed Pulse (Pin **GPIO 14**)
+- **Wind Vane**: Directional Analog (Pin **A3**)
+- **Interface**: Interrupts (Rain/Wind), Analog (Direction)
 
 ## JSON UART Protocol
 ```json
@@ -20,12 +21,16 @@ RainMe interfaces with a reed-switch based tipping bucket to measure precipitati
   "t_c": 18.20,
   "h_pct": 88.50,
   "p_hpa": 1005.40,
-  "rain_mm": 12.45
+  "rain_mm": 12.45,
+  "wind_ms": 1.24,
+  "windGust_ms": 5.40,
+  "windDirection_d": 183
 }
 ```
 
 ## Features
-- **Interrupt Counting**: Reliable pulse counting handles high-frequency oscillation (debounced at 100ms).
-- **Total Precipitation**: Tracks cumulative mm based on calibrated bucket volume (default 0.2794ml).
-- **Weather Analysis**: Combines humidity and pressure data to correlate rainfall events with atmospheric changes.
-- **Low Power**: High-efficiency sleep mode between rain events.
+- **Precise Wind Tracking**: Uses dedicated interrupts to capture high-speed wind pulses.
+- **Gust Analysis**: Calculates the relative peak wind intensity within each 60-second window.
+- **Directional Profile**: 0-359° directional mapping for wind vector analysis.
+- **Rain Profiling**: Interrupt-driven pulse counting for accurate precipitation tracking (mm/min).
+- **Environment Fusion**: Combines humidity, pressure, and temperature to provide a holistic weather forecast profile.
