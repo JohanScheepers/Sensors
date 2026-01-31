@@ -30,25 +30,30 @@ The module communicates with the Mesh Controller via a standard UART interface.
 
 ### Connection Diagram
 ```mermaid
-graph TD
+graph LR
     subgraph Mesh_Controller ["Mesh Controller (GatewayMe)"]
+        direction TB
+        MCU_3V3["3.3V Out"]
         MCU_TX["UART TX"]
         MCU_RX["UART RX"]
         MCU_GND["GND"]
-        MCU_3V3["3.3V Out"]
     end
 
     subgraph Rak811 ["Rak811 LoRaWAN Module"]
+        direction TB
+        RAK_VCC["VCC"]
         RAK_RX["UART RX"]
         RAK_TX["UART TX"]
         RAK_GND["GND"]
-        RAK_VCC["VCC"]
     end
 
+    %% Power Connections
+    MCU_3V3 === RAK_VCC
+    MCU_GND === RAK_GND
+
+    %% Data Connections
     MCU_TX --> RAK_RX
     RAK_TX --> MCU_RX
-    MCU_GND --- RAK_GND
-    MCU_3V3 --- RAK_VCC
 ```
 
 - **Baud Rate**: 115200 bps (default)
