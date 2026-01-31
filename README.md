@@ -34,7 +34,10 @@ Dual-zone monitoring for cold storage, featuring an external temperature probe.
 Real-time security and operational status for gates and doors.
 
 ### [GatewayMe](./GatewayMe)
-The primary bridge between the local mesh network and the internet via Ethernet.
+The primary bridge between the local mesh network and the internet. Features **Modular Connectivity** options:
+- **[Integrated Ethernet](./GatewayMe/Ethernet)**: W5500-MIN (SPI) for fixed connections.
+- **[Swappable NB-IoT](./GatewayMe/NB-IoT)**: SIM7000 module for cellular backhaul.
+- **[Swappable LoRaWAN](./GatewayMe/LoRaWAN)**: Rak811 module for long-range WAN.
 
 ### [Mesh Network](./Mesh)
 The low-power, long-range LoRa communication backbone for all sensor nodes.
