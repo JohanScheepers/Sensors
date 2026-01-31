@@ -35,7 +35,7 @@ Real-time security and operational status for gates and doors.
 
 ### [GatewayMe](./GatewayMe)
 The primary bridge between the local mesh network and the internet. Features **Modular Connectivity** options:
-- **[Integrated Ethernet](./GatewayMe/Ethernet)**: W5500-MIN (SPI) for fixed connections.
+- **[Integrated Ethernet](./GatewayMe/Ethernet)**: Waveshare UART TO ETH (S2E) for transparent bridging.
 - **[Swappable NB-IoT](./GatewayMe/NB-IoT)**: SIM7000 module for cellular backhaul.
 - **[Swappable LoRaWAN](./GatewayMe/LoRaWAN)**: Rak811 module for long-range WAN.
 

@@ -1,47 +1,49 @@
-# Integrated Ethernet Connectivity (W5500-MIN)
+# Integrated Ethernet Connectivity (Waveshare UART TO ETH)
 
-<img src="./W5500-MIN.webp" width="600" />
+<img src="./waveshare_eth.jpg" width="600" />
 
 ## Overview
-Powering the GatewayMe's primary connection to the internet is the **W5500-MIN** module. This compact breakout board features the Wiznet W5500 Hardwired TCP/IP embedded Ethernet controller, providing a stable, high-speed SPI backhaul for sensor data.
+The GatewayMe utilizes the **Waveshare UART TO ETH** module to provide a seamless, transparent bridge between the mesh network's serial data and the internet. Unlike SPI-based solutions, this module handles the full TCP/IP stack internally, treating the Ethernet connection as a simple UART stream for the main controller.
 
 ## Hardware Specifications
-- **Module**: W5500-MIN Breakout
-- **Controller**: Wiznet W5500
-- **Interface**: SPI (Serial Peripheral Interface)
-- **Buffer**: 32KB Internal Tx/Rx Buffer
-- **Speed**: 10/100 Mbps (Ethernet), up to 80MHz (SPI)
+- **Module**: Waveshare UART TO ETH (Mini)
+- **Processor**: 32-bit ARM Cortex-M0 series
+- **Interface**: UART (TTL)
+- **Ethernet**: 10/100 Mbps Auto-MDI/MDIX
+- **Protocols**: TCP Server/Client, UDP Server/Client, HTTPD Client
+- **Configuration**: Web Browser, AT Commands, or Serial Config Tool
 
 ### Electrical Specifications
 | Parameter | Min | Typical | Max | Unit |
 | :--- | :--- | :--- | :--- | :--- |
-| Supply Voltage (3.3V) | 2.97 | 3.3 | 3.63 | V |
-| Logic Level (SPI) | - | 3.3 | - | V |
-| Operating Current (TX) | - | 132 | - | mA |
-| Operating Current (RX) | - | 87 | - | mA |
+| Supply Voltage | 3.0 | 3.3 / 5.0 | 5.5 | V |
+| Logic Level | - | 3.3 (5V Tolerant) | - | V |
+| Operating Current | - | 140 | - | mA |
+| Baud Rate | 600 | 115200 | 460800 | bps |
 
 ## Interface
-The module communicates with the Mesh Controller via a standard 4-wire SPI interface + Chip Select and Reset.
+The module connects directly to the Gateway Controller's UART pins, simplifying the architecture to a true "Serial-to-Ethernet" bridge.
 
 ### Connection Diagram
 ```text
 +-----------------------+                    +-----------------------+
-|    Mesh Controller    |                    |   W5500-MIN Module    |
-|      (GatewayMe)      |                    |      (Ethernet)       |
+|    Mesh Controller    |                    | Waveshare UART TO ETH |
+|      (GatewayMe)      |                    |      (S2E Module)     |
 |                       |                    |                       |
-|   [ 3.3V Out ] ----------------------------> [ 3.3V ]              |
+|   [ VCC (3.3V/5V) ] -----------------------> [ VCC  ]              |
 |                       |                    |                       |
-|   [   GND    ] ----------------------------> [ GND  ]              |
+|   [      GND      ] -----------------------> [ GND  ]              |
 |                       |                    |                       |
-|   [ SPI MOSI ] ----------------------------> [ MOSI ]              |
+|   [    UART TX    ] -----------------------> [ RXD  ]              |
 |                       |                    |                       |
-|   [ SPI MISO ] <---------------------------- [ MISO ]              |
+|   [    UART RX    ] <----------------------- [ TXD  ]              |
 |                       |                    |                       |
-|   [ SPI SCK  ] ----------------------------> [ SCLK ]              |
-|                       |                    |                       |
-|   [  CS Pin  ] ----------------------------> [ SCS  ]              |
-|                       |                    |                       |
-|   [ RST Pin  ] ----------------------------> [ RST  ]              |
+|   [   RST (Opt)   ] -----------------------> [ RST  ]              |
 +-----------------------+                    +-----------------------+
 ```
-*Note: The W5500 supports 3.3V logic. 5V tolerant inputs are NOT guaranteed, use level shifters if connecting to a 5V MCU.*
+*Note: Config pins (CFG) can be pulled low to enter configuration mode if web configuration is unavailable.*
+
+## Work Modes
+1.  **TCP Client (Default)**: Gateway connects to a central cloud server IP. Data sent to UART is forwarded to the server; server responses appear on UART.
+2.  **UDP Mode**: Fire-and-forget packets for low-latency telemetry.
+3.  **HTTPD Client**: Encapsulates data into HTTP POST/GET requests (useful for REST APIs).
