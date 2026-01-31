@@ -9,6 +9,7 @@ GatewayMe serves as the central bridge between the local autonomous mesh network
 
 ## Hardware Specifications
 - **Connectivity**: Integrated RJ45 Ethernet Port (W5500 or similar)
+- **Swappable Modules**: Separate/Interchangeable NB-IoT and LoRaWAN modules
 - **Mesh Radio**: LoRa / RF coordinate module (SMA Antenna connector)
 - **Power**: Standard AC 110/220V with DC regulation
 - **Indication**: Power, Link, and Data RX/TX LEDs
