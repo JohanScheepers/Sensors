@@ -31,18 +31,18 @@ The module communicates with the Mesh Controller via a standard UART interface.
 ### Connection Diagram
 ```mermaid
 graph TD
-    subgraph Mesh_Controller [Mesh Controller (GatewayMe)]
-        MCU_TX[UART TX]
-        MCU_RX[UART RX]
-        MCU_GND[GND]
-        MCU_3V3[3.3V Out]
+    subgraph Mesh_Controller ["Mesh Controller (GatewayMe)"]
+        MCU_TX["UART TX"]
+        MCU_RX["UART RX"]
+        MCU_GND["GND"]
+        MCU_3V3["3.3V Out"]
     end
 
-    subgraph Rak811 [Rak811 LoRaWAN Module]
-        RAK_RX[UART RX]
-        RAK_TX[UART TX]
-        RAK_GND[GND]
-        RAK_VCC[VCC]
+    subgraph Rak811 ["Rak811 LoRaWAN Module"]
+        RAK_RX["UART RX"]
+        RAK_TX["UART TX"]
+        RAK_GND["GND"]
+        RAK_VCC["VCC"]
     end
 
     MCU_TX --> RAK_RX
