@@ -33,18 +33,12 @@ The module communicates with the Mesh Controller via a standard UART interface.
 graph LR
     subgraph Mesh_Controller ["Mesh Controller (GatewayMe)"]
         direction TB
-        MCU_3V3["3.3V Out"]
-        MCU_TX["UART TX"]
-        MCU_RX["UART RX"]
-        MCU_GND["GND"]
+        MCU_3V3["3.3V Out"] ~~~ MCU_TX["UART TX"] ~~~ MCU_RX["UART RX"] ~~~ MCU_GND["GND"]
     end
 
     subgraph Rak811 ["Rak811 LoRaWAN Module"]
         direction TB
-        RAK_VCC["VCC"]
-        RAK_RX["UART RX"]
-        RAK_TX["UART TX"]
-        RAK_GND["GND"]
+        RAK_VCC["VCC"] ~~~ RAK_RX["UART RX"] ~~~ RAK_TX["UART TX"] ~~~ RAK_GND["GND"]
     end
 
     %% Power Connections
