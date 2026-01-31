@@ -29,25 +29,19 @@ This swappable module provides LoRaWAN connectivity using the **Rak811** modem. 
 The module communicates with the Mesh Controller via a standard UART interface.
 
 ### Connection Diagram
-```mermaid
-graph LR
-    subgraph Mesh_Controller ["Mesh Controller (GatewayMe)"]
-        direction TB
-        MCU_3V3["3.3V Out"] ~~~ MCU_TX["UART TX"] ~~~ MCU_RX["UART RX"] ~~~ MCU_GND["GND"]
-    end
-
-    subgraph Rak811 ["Rak811 LoRaWAN Module"]
-        direction TB
-        RAK_VCC["VCC"] ~~~ RAK_RX["UART RX"] ~~~ RAK_TX["UART TX"] ~~~ RAK_GND["GND"]
-    end
-
-    %% Power Connections
-    MCU_3V3 === RAK_VCC
-    MCU_GND === RAK_GND
-
-    %% Data Connections
-    MCU_TX --> RAK_RX
-    RAK_TX --> MCU_RX
+```text
++-----------------------+                    +-----------------------+
+|    Mesh Controller    |                    |     Rak811 Module     |
+|      (GatewayMe)      |                    |       (LoRaWAN)       |
+|                       |                    |                       |
+|   [ 3.3V Out ] ----------------------------> [ VCC ]               |
+|                       |                    |                       |
+|   [ UART TX  ] ----------------------------> [ UART RX ]           |
+|                       |                    |                       |
+|   [ UART RX  ] <---------------------------- [ UART TX ]           |
+|                       |                    |                       |
+|   [   GND    ] ----------------------------> [ GND ]               |
++-----------------------+                    +-----------------------+
 ```
 
 - **Baud Rate**: 115200 bps (default)
