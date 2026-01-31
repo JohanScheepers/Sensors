@@ -12,19 +12,13 @@ TempMe uses a **BME280** sensor to monitor barometric pressure, humidity, and te
 - **Interface**: I2C (address 0x76)
 - **Power**: Battery optimized
 
-## JSON UART Protocol
-The device streams telemetry in JSON format over UART at **115200 baud**.
+## Binary Data Payload
 
-```json
-{
-  "id": "TEMP01",
-  "type": "TempMe",
-  "t_c": 24.50,
-  "h_pct": 45.20,
-  "p_hpa": 1013.25,
-  "alt_m": 12.30
-}
-```
+**Sensor Type ID:** 0
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type (0) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Altitude (int16)|
 
 ## Features
 - **Celsius Precision**: All temperature readings are strictly in °C.

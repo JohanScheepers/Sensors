@@ -16,20 +16,13 @@ RainMe transforms the standard environmental monitor into a high-performance wea
 - **Wind Vane**: Directional Analog (Pin **A3**)
 - **Interface**: Interrupts (Rain/Wind), Analog (Direction)
 
-## JSON UART Protocol
-```json
-{
-  "id": "RAI01",
-  "type": "RainMe",
-  "t_c": 18.20,
-  "h_pct": 88.50,
-  "p_hpa": 1005.40,
-  "rain_mm": 12.45,
-  "wind_ms": 1.24,
-  "windGust_ms": 5.40,
-  "windDirection_d": 183
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 8
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
+|---|---|---|---|---|---|---|---|
+| Type (8) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Rain Tips (uint32) | Wind Spd (uint8) | Gust (uint8) | Dir (uint8)|
 
 ## Features
 - **Precise Wind Tracking**: Uses dedicated interrupts to capture high-speed wind pulses.

@@ -13,17 +13,13 @@ FridgeMe combines ambient environment monitoring with a highly accurate remote t
 - **Internal Probe**: DS18B20 (Waterproof Stainless Steel)
 - **Interface**: OneWire (Pin **GPIO 4**)
 
-## JSON UART Protocol
-```json
-{
-  "id": "FRI01",
-  "type": "FridgeMe",
-  "amb_t_c": 22.50,
-  "h_pct": 42.10,
-  "p_hpa": 1013.25,
-  "probe_t_c": -18.40
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 3
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type (3) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Probe Temp (int8)|
 
 ## Features
 - **Remote Probing**: Allows monitoring deep inside freezers without compromising signal strength.

@@ -2,11 +2,10 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 
 // --- Configuration ---
 #define NODE_ID "VAL01"
-#define SENSOR_TYPE "ValveMe"
+#define SENSOR_TYPE_ID 7
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define RELAY_PIN 10
@@ -15,17 +14,18 @@
 Adafruit_BME280 bme;
 
 // --- State ---
-unsigned long lastReadTime = 0;
+// Removed lastReadTime
 bool valveOpen = false;
 
-struct SensorData {
-  float temperature;
-  float humidity;
-  float pressure;
-  bool state;
+// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  uint8_t state; // 1 = open, 0 = closed
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
@@ -51,32 +51,20 @@ void processCommands() {
 }
 
 void readSensors() {
-  currentData.temperature = bme.readTemperature();
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
-  currentData.state = valveOpen;
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.state = valveOpen ? 1 : 0;
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.temperature;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["open"] = currentData.state;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
   processCommands();
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

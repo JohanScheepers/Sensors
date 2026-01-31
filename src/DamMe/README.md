@@ -15,17 +15,13 @@ DamMe utilizes high-frequency sound waves to measure the distance to the water s
 - **Echo Pin**: GPIO 6
 - **Max Range**: 400 cm (4 meters)
 
-## JSON UART Protocol
-```json
-{
-  "id": "DAM01",
-  "type": "DamMe",
-  "t_c": 20.50,
-  "h_pct": 65.20,
-  "p_hpa": 1009.25,
-  "dist_cm": 150.40
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 2
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Water Dist mm (uint16)|
 
 ## Features
 - **Non-Contact Sensing**: High reliability in varying water quality conditions.

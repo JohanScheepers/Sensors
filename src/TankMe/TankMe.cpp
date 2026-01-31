@@ -2,11 +2,10 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 
 // --- Configuration ---
 #define NODE_ID "TNK01"
-#define SENSOR_TYPE "TankMe"
+#define SENSOR_TYPE_ID 6
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define PRESSURE_PIN A0
@@ -17,16 +16,17 @@
 Adafruit_BME280 bme;
 
 // --- State ---
-unsigned long lastReadTime = 0;
+// Removed lastReadTime
 
-struct SensorData {
-  float temperature;
-  float humidity;
-  float pressure;
-  float waterLevel;
+// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  uint16_t waterLevel; // mm
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
@@ -36,38 +36,29 @@ void setup() {
   pinMode(PRESSURE_PIN, INPUT);
 }
 
-float getWaterLevel() {
+uint16_t getWaterLevelMM() {
   float voltage = (analogRead(PRESSURE_PIN) / 1023.0) * PRESSURE_VCC;
+  // KPa
   float pressure = ((voltage - 0.5) / 4.0) * PRESSURE_RANGE_KPA;
-  return max(0.0f, pressure / 9.8f);
+  // h(m) = pressure / 9.8
+  float height_m = max(0.0f, pressure / 9.8f);
+  return (uint16_t)(height_m * 1000);
 }
 
 void readSensors() {
-  currentData.temperature = bme.readTemperature();
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
-  currentData.waterLevel = getWaterLevel();
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.waterLevel = getWaterLevelMM();
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.temperature;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["lvl_m"] = currentData.waterLevel;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

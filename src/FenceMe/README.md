@@ -12,17 +12,13 @@ FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It p
 - **Interface**: Analog Pin **A2**, GPIO 12 (Alert LED)
 - **Max Input**: 12 kV (Scalable)
 
-## JSON UART Protocol
-```json
-{
-  "id": "FEN01",
-  "type": "FenceMe",
-  "t_c": 21.30,
-  "h_pct": 52.00,
-  "p_hpa": 1012.50,
-  "fen_kv": 8.45
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 10
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type (10) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Voltage kV*100 (uint16)|
 
 ## Features
 - **High Voltage Isolation**: Designed with optoisolation to protect the MCU from kV surges.

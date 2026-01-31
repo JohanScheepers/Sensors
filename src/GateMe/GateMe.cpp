@@ -2,11 +2,10 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 
 // --- Configuration ---
 #define NODE_ID "GAT01"
-#define SENSOR_TYPE "GateMe"
+#define SENSOR_TYPE_ID 4
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 10000 
 #define GATE_PIN 7
@@ -15,19 +14,18 @@
 Adafruit_BME280 bme;
 
 // --- State ---
-unsigned long lastReadTime = 0;
 bool lastGateState = false;
 unsigned long gateOpenTime = 0;
 
-struct SensorData {
-  float temperature;
-  float humidity;
-  float pressure;
-  bool gateOpen;
-  unsigned long duration;
+// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  uint8_t gateOpen; // 1 = open, 0 = closed
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
@@ -38,36 +36,21 @@ void setup() {
 }
 
 void readSensors() {
-  currentData.temperature = bme.readTemperature();
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
-  currentData.gateOpen = digitalRead(GATE_PIN) == HIGH;
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.gateOpen = (digitalRead(GATE_PIN) == HIGH) ? 1 : 0;
   
-  if (currentData.gateOpen && !lastGateState) gateOpenTime = millis();
-  currentData.duration = currentData.gateOpen ? (millis() - gateOpenTime) / 1000 : 0;
-  lastGateState = currentData.gateOpen;
+  // Logic tracking (local only usage or debug)
+  bool isOpen = (currentPacket.gateOpen == 1);
+  if (isOpen && !lastGateState) gateOpenTime = millis();
+  lastGateState = isOpen;
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.temperature;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["open"] = currentData.gateOpen;
-  doc["dur_s"] = currentData.duration;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  delay(100);
 }

@@ -2,12 +2,12 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 #include <SDI12.h>
 
 // --- Configuration ---
-#define NODE_ID "MOI01"
-#define SENSOR_TYPE "MoistureMe"
+#define NODE_ID "MOI01" // Legacy ID, not used in binary packet
+// Node Type: MoistureMe = 9
+#define SENSOR_TYPE_ID 9 
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define SDI12_DATA_PIN 2  // Digital pin for SDI-12 data
@@ -18,25 +18,25 @@ Adafruit_BME280 bme;
 SDI12 sdi12(SDI12_DATA_PIN);
 
 // --- State ---
-unsigned long lastReadTime = 0;
+// Removed lastReadTime
 
-struct SensorData {
-  float airTemp;
-  float airHum;
-  float airPres;
-  float soilTemp[4]; // 4 Depths
-  float moisture[4]; // 4 Depths
-  bool sdiSuccess;
+// Packed struct for binary transmission (16 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  int16_t soilTemp[4];     // 4 Depths (centi-degrees)
+  uint8_t moisture[4];     // 4 Depths (raw or percentage)
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
   Wire.begin();
   
   if (!bme.begin(0x76)) {
-    UART_STREAM_PORT.println(F("{\"error\":\"BME280 not found\"}"));
+    // Error handling? For now, we assume hardware is present or we send 0s
   }
   
   bme.setSampling(Adafruit_BME280::MODE_NORMAL, Adafruit_BME280::SAMPLING_X2, Adafruit_BME280::SAMPLING_X16, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_X16, Adafruit_BME280::STANDBY_MS_500);
@@ -51,12 +51,10 @@ bool readSDI12() {
   
   // Wait for measurement to complete (max 10s)
   unsigned long start = millis();
-  String response = "";
   while (millis() - start < 10000) {
     if (sdi12.available()) {
       char c = sdi12.read();
       if (c == '\n' || c == '\r') break;
-      response += c;
     }
   }
   
@@ -67,7 +65,7 @@ bool readSDI12() {
   sdi12.sendCommand(command);
   
   start = millis();
-  response = "";
+  String response = "";
   while (millis() - start < 5000) {
     if (sdi12.available()) {
       char c = sdi12.read();
@@ -76,33 +74,35 @@ bool readSDI12() {
     }
   }
 
-  // Parse SDI-12 response: addr+t1+m1+t2+m2+t3+m3+t4+m4 (Interleaved pairs)
-  // format: 0+21.5+34.2+21.0+33.1+20.5+31.0+20.0+28.5 
+  // Parse SDI-12 response: addr+t1+m1+t2+m2+t3+m3+t4+m4
+  // We need to parse floats and convert to our storage format
   if (response.length() > 2) {
     int pos = 0;
-    // Skip address (usually response[0])
+    // Skip address
     pos = response.indexOf('+', 0);
     if (pos == -1) pos = response.indexOf('-', 0);
 
     for (int i = 0; i < 4; i++) {
         // Read Temp
         if (pos != -1) {
-            currentData.soilTemp[i] = response.substring(pos).toFloat();
-            // Move to next value
+            float t = response.substring(pos).toFloat();
+            currentPacket.soilTemp[i] = (int16_t)(t * 100); // centi-degrees
+            // Move to next
             pos = response.indexOf('+', pos + 1);
             if (pos == -1) pos = response.indexOf('-', pos + 1);
         } else {
-            currentData.soilTemp[i] = -99.0;
+            currentPacket.soilTemp[i] = -9900;
         }
 
         // Read Moisture
         if (pos != -1) {
-            currentData.moisture[i] = response.substring(pos).toFloat();
-            // Move to next value for next iteration
+            float m = response.substring(pos).toFloat();
+            currentPacket.moisture[i] = (uint8_t)m; // Assuming 0-100 range
+            // Move to next
             pos = response.indexOf('+', pos + 1);
             if (pos == -1) pos = response.indexOf('-', pos + 1);
         } else {
-            currentData.moisture[i] = -1.0;
+            currentPacket.moisture[i] = 0;
         }
     }
     return true;
@@ -111,41 +111,31 @@ bool readSDI12() {
 }
 
 void readSensors() {
-  currentData.airTemp = bme.readTemperature();
-  currentData.airHum = bme.readHumidity();
-  currentData.airPres = bme.readPressure() / 100.0F;
-  currentData.sdiSuccess = readSDI12();
+  float t = bme.readTemperature();
+  currentPacket.airTemp = (int8_t)t;
+  
+  float h = bme.readHumidity();
+  currentPacket.airHum = (uint8_t)h;
+  
+  float p = bme.readPressure() / 100.0F;
+  currentPacket.airPres = (uint16_t)p;
+  
+  if (!readSDI12()) {
+      // Fill with error values if SDI-12 fails
+      for(int i=0; i<4; i++) {
+          currentPacket.soilTemp[i] = -9900;
+          currentPacket.moisture[i] = 0;
+      }
+  }
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.airTemp;
-  doc["h_pct"] = currentData.airHum;
-  doc["p_hpa"] = currentData.airPres;
-  
-  if (currentData.sdiSuccess) {
-    JsonArray soil_t = doc["soil_t_c"].to<JsonArray>();
-    JsonArray moisture = doc["moi_raw"].to<JsonArray>();
-    for (int i = 0; i < 4; i++) {
-      soil_t.add(currentData.soilTemp[i]);
-      moisture.add(currentData.moisture[i]);
-    }
-  } else {
-    doc["error"] = "SDI12_FAIL";
-  }
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

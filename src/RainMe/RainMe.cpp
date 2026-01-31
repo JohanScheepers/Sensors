@@ -2,11 +2,10 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 
 // --- Configuration ---
 #define NODE_ID "RAI01"
-#define SENSOR_TYPE "RainMe"
+#define SENSOR_TYPE_ID 8
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 
@@ -27,20 +26,19 @@ volatile unsigned long rainTips = 0;
 volatile unsigned long windPulses = 0;
 unsigned long lastRainTipTime = 0;
 unsigned long lastWindPulseTime = 0;
-unsigned long lastReadTime = 0;
-float maxWindCurrent = 0.0;  // Gust tracking
 
-struct SensorData {
-  float temperature;
-  float humidity;
-  float pressure;
-  double rainfall;      // Running total mm since boot
-  float windSpeed;
-  float windGust;
-  int windDirection;
+// Packed struct for binary transmission (11 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  uint32_t rainTips;       // Total count to date
+  uint8_t windSpeed;       // m/s
+  uint8_t windGust;        // m/s
+  uint8_t windDir;         // scaled 0-255 for 0-360 degrees
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 // --- Interrupts ---
 void IRAM_ATTR onRainTip() {
@@ -60,11 +58,10 @@ void IRAM_ATTR onWindPulse() {
 }
 
 // --- Helpers ---
-int getWindDirection() {
+uint8_t getWindDirectionByte() {
   int val = analogRead(WIND_DIR_PIN);
-  // Simplified mapping for 0-360 degrees
-  // In a real scenario, this would use a lookup table for a voltage divider
-  return map(val, 0, 1023, 0, 359);
+  // Map 0-1023 (analog) to 0-255 (byte) representing 0-360 degrees
+  return map(val, 0, 1023, 0, 255);
 }
 
 void setup() {
@@ -72,7 +69,7 @@ void setup() {
   Wire.begin();
   
   if (!bme.begin(0x76)) {
-    UART_STREAM_PORT.println(F("{\"error\":\"BME280 not found\"}"));
+    // Error handling
   }
   
   bme.setSampling(Adafruit_BME280::MODE_NORMAL, Adafruit_BME280::SAMPLING_X2, Adafruit_BME280::SAMPLING_X16, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_X16, Adafruit_BME280::STANDBY_MS_500);
@@ -87,53 +84,41 @@ void setup() {
 }
 
 void readSensors() {
-  currentData.temperature = bme.readTemperature();
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
+  float t = bme.readTemperature();
+  currentPacket.airTemp = (int8_t)t;
   
-  // Rainfall
-  currentData.rainfall = rainTips * RAIN_TIP_MM;
+  float h = bme.readHumidity();
+  currentPacket.airHum = (uint8_t)h;
+  
+  float p = bme.readPressure() / 100.0F;
+  currentPacket.airPres = (uint16_t)p;
+  
+  // Rainfall (Total Tips)
+  currentPacket.rainTips = (uint32_t)rainTips;
   
   // Wind Speed (avg over interval)
   // freq = pulses / (interval / 1000)
   float freq = (float)windPulses / (SENSOR_READ_INTERVAL / 1000.0);
-  currentData.windSpeed = freq * (WIND_SCALE / 3.6); // Convert km/h to m/s
+  float speed_ms = freq * (WIND_SCALE / 3.6); // Convert km/h to m/s
+  currentPacket.windSpeed = (uint8_t)speed_ms;
   
-  // Gust (simplified: peak during interval is harder without continuous sampling, 
-  // but we'll use the interval avg and a "peak" pulse rate if we had a shorter window)
-  // For now, we'll just simulate gust as a slightly higher random factor or peak pulse count
-  currentData.windGust = currentData.windSpeed * 1.5; 
+  // Gust (simplified)
+  float gust_ms = speed_ms * 1.5; 
+  currentPacket.windGust = (uint8_t)gust_ms;
   
-  currentData.windDirection = getWindDirection();
+  currentPacket.windDir = getWindDirectionByte();
   
-  // Reset counters for next interval
+  // Reset counters for next interval (except rainTips, which is cumulative)
   windPulses = 0;
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.temperature;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["rain_mm"] = currentData.rainfall;
-  doc["wind_ms"] = currentData.windSpeed;
-  doc["windGust_ms"] = currentData.windGust;
-  doc["windDirection_d"] = currentData.windDirection;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

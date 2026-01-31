@@ -12,17 +12,13 @@ ValveMe controls a high-current 12VDC solenoid valve using an integrated relay. 
 - **Pin Mapping**: GPIO 10 (Relay), GPIO 11 (Status LED)
 - **Operating Voltage**: 12VDC (External supply required for valve)
 
-## JSON UART Protocol
-```json
-{
-  "id": "VAL01",
-  "type": "ValveMe",
-  "t_c": 28.50,
-  "h_pct": 32.20,
-  "p_hpa": 1011.80,
-  "open": false
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 7
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type (7) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Valve State (1=Open)|
 
 ## Features
 - **Active Power Tracking**: Monitors open duration to prevent overflow and estimate liquid volume.

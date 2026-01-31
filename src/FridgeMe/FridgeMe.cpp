@@ -2,13 +2,12 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
 // --- Configuration ---
 #define NODE_ID "FRI01"
-#define SENSOR_TYPE "FridgeMe"
+#define SENSOR_TYPE_ID 3
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define ONE_WIRE_BUS 4
@@ -19,16 +18,17 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature ds18b20(&oneWire);
 
 // --- State ---
-unsigned long lastReadTime = 0;
+// Removed lastReadTime
 
-struct SensorData {
-  float ambientTemp;
-  float humidity;
-  float pressure;
-  float probeTemp;
+// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  int8_t probeTemp;
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
@@ -39,32 +39,20 @@ void setup() {
 }
 
 void readSensors() {
-  currentData.ambientTemp = bme.readTemperature();
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
   ds18b20.requestTemperatures();
-  currentData.probeTemp = ds18b20.getTempCByIndex(0); // getTempC returns Celsius
+  currentPacket.probeTemp = (int8_t)ds18b20.getTempCByIndex(0);
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["amb_t_c"] = currentData.ambientTemp;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["probe_t_c"] = currentData.probeTemp;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

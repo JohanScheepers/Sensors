@@ -14,17 +14,13 @@ TankMe measures the hydrostatic pressure of the water column to calculate the pr
 - **Interface**: Pin **A0** (Analog Input)
 - **VCC Supply**: 5.0V
 
-## JSON UART Protocol
-```json
-{
-  "id": "TNK01",
-  "type": "TankMe",
-  "t_c": 21.40,
-  "h_pct": 52.30,
-  "p_hpa": 1012.25,
-  "lvl_m": 4.52
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 6
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type (6) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Water Level mm (uint16)|
 
 ## Features
 - **Hydrostatic Precision**: Highly accurate level measurement based on liquid pressure.

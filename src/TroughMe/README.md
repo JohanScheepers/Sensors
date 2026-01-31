@@ -14,17 +14,13 @@ TroughMe uses a high-sensitivity pressure sensor optimized for shallow depths. I
 - **Interface**: Pin **A0** (Analog Input)
 - **VCC Supply**: 5.0V
 
-## JSON UART Protocol
-```json
-{
-  "id": "TRO01",
-  "type": "TroughMe",
-  "t_c": 19.80,
-  "h_pct": 55.40,
-  "p_hpa": 1011.50,
-  "lvl_m": 0.85
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 1
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type (1) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Limit (mm)|
 
 ## Features
 - **Shallow Water Optimization**: Optimized for 0-1.5m range for superior vertical resolution compared to standard tank sensors.

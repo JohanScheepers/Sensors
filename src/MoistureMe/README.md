@@ -13,20 +13,13 @@ MoistureMe interfaces with high-precision multisensor probes (e.g., Sentek, Deca
 - **Baud Rate**: 1200 (Standard SDI-12)
 - **Data Points**: 4x Soil Temp, 4x Moisture Readings
 
-## JSON UART Protocol
-Telemetery is transmitted in raw digital format. Calibration (Wet/Dry) is handled by the cloud backend.
+## Binary Data Payload
 
-```json
-{
-  "id": "MOI01",
-  "type": "MoistureMe",
-  "t_c": 23.40,
-  "h_pct": 48.20,
-  "p_hpa": 1013.25,
-  "soil_t_c": [21.30, 20.80, 19.50, 18.20],
-  "moi_raw": [34.50, 32.10, 28.50, 25.00]
-}
-```
+**Sensor Type ID:** 9
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
+|---|---|---|---|---|---|
+| Type (9) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Soil Temp 1-4 (4x int16) | Moisture 1-4 (4x uint8)|
 
 ## Features
 - **SDI-12 Integration**: Supports industry-standard soil probes via the digital data interface.

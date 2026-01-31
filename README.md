@@ -63,5 +63,89 @@ Precision low-range monitoring (0-1.5m) for livestock drinking troughs.
 ### [ValveMe](./src/ValveMe)
 Automated flow control for 12VDC solenoid valves.
 
+## Sensor Data Encoding
+
+All sensor data is encoded in a compact binary format and sent over the mesh network.
+
+**Byte 1 is always the Sensor Type**. The remaining bytes are the sensor-specific data payload.
+
+|Sensor Type|Byte 1 Value|
+|---|---|
+|TempMe|0|
+|TroughMe|1|
+|DamMe|2|
+|FridgeMe|3|
+|GateMe|4|
+|SwitchMe|5|
+|TankMe|6|
+|ValveMe|7|
+|RainMe|8|
+|MoistureMe|9|
+|FenceMe|10|
+
+**Common Data Types:**
+- Temperature: `int8_t` (raw data, ranges from -128 to 127°C)
+- Humidity: `uint8_t` (0-100%)
+- Pressure: `uint16_t` (hPa, e.g., 1013)
+- Soil Temp: `int16_t` (centi-degrees, e.g., 2550 = 25.50°C)
+- Rainfall: `uint32_t` (total count of tips)
+- Distance: `uint16_t` (mm)
+- Voltage/kV: `uint16_t` (kV * 100)
+
+**TempMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Altitude |
+
+**TroughMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Water Level (mm)|
+
+**FenceMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Fence Voltage|
+
+**DamMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Water Distance|
+
+**GateMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Gate Status (1=Open)|
+
+**SwitchMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Switch Status (1=On)|
+
+**ValveMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
+
+**RainMe (12 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
+|---|---|---|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Rainfall (uint32) | Wind Speed | Wind Gust | Wind Dir|
+
+**MoistureMe (17 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
+|---|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Soil Temp 1-4 | Moisture 1-4 |
+
+**FridgeMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Fridge Temp|
+
+**TankMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Tank Level (mm)|
+
 ---
 *Developed with PlatformIO for professional ARM-based embedded development.*

@@ -2,11 +2,10 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <ArduinoJson.h>
 
 // --- Configuration ---
 #define NODE_ID "TEMP01"
-#define SENSOR_TYPE "TempMe"
+#define SENSOR_TYPE_ID 0
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000
 #define SEALEVELPRESSURE_HPA (1013.25)
@@ -15,16 +14,17 @@
 Adafruit_BME280 bme;
 
 // --- State ---
-unsigned long lastReadTime = 0;
+// Removed lastReadTime
 
-struct SensorData {
-  float temperature;
-  float humidity;
-  float pressure;
-  float altitude;
+// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
+struct __attribute__((packed)) SensorPacket {
+  int8_t airTemp;
+  uint8_t airHum;
+  uint16_t airPres;
+  int16_t altitude; 
 };
 
-SensorData currentData;
+SensorPacket currentPacket;
 
 void setup() {
   UART_STREAM_PORT.begin(115200);
@@ -33,8 +33,7 @@ void setup() {
   Wire.begin();
   
   if (!bme.begin(0x76)) {
-    // Basic fallback for error reporting
-    UART_STREAM_PORT.println(F("{\"error\":\"BME280 not found\"}"));
+    // Basic fallback
     while (1);
   }
   
@@ -47,33 +46,19 @@ void setup() {
 }
 
 void readSensors() {
-  currentData.temperature = bme.readTemperature(); // Already in Celsius
-  currentData.humidity = bme.readHumidity();
-  currentData.pressure = bme.readPressure() / 100.0F;
-  currentData.altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.altitude = (int16_t)bme.readAltitude(SEALEVELPRESSURE_HPA);
 }
 
 void transmitToMesh() {
-  JsonDocument doc;
-  doc["id"] = NODE_ID;
-  doc["type"] = SENSOR_TYPE;
-  doc["t_c"] = currentData.temperature;
-  doc["h_pct"] = currentData.humidity;
-  doc["p_hpa"] = currentData.pressure;
-  doc["alt_m"] = currentData.altitude;
-  
-  serializeJson(doc, UART_STREAM_PORT);
-  UART_STREAM_PORT.println();
+  UART_STREAM_PORT.write((uint8_t)SENSOR_TYPE_ID);
+  UART_STREAM_PORT.write((const uint8_t*)&currentPacket, sizeof(SensorPacket));
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  
-  if (currentTime - lastReadTime >= SENSOR_READ_INTERVAL) {
-    readSensors();
-    transmitToMesh();
-    lastReadTime = currentTime;
-  }
-  
-  delay(100);
+  readSensors();
+  transmitToMesh();
+  delay(SENSOR_READ_INTERVAL);
 }

@@ -11,18 +11,13 @@ GateMe utilizes a magnetic contact switch to determine if a gate is open or clos
 - **Contact Sensor**: Magnetic Reed Switch / Hall Effect
 - **Interface**: Pin **GPIO 7** (Internal Pull-up)
 
-## JSON UART Protocol
-```json
-{
-  "id": "GAT01",
-  "type": "GateMe",
-  "t_c": 24.10,
-  "h_pct": 35.50,
-  "p_hpa": 1014.20,
-  "open": true,
-  "dur_s": 45
-}
-```
+## Binary Data Payload
+
+**Sensor Type ID:** 4
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type (4) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Gate Open (1=True)|
 
 ## Features
 - **State Change Detection**: Immediate JSON broadcast upon gate opening/closing.
