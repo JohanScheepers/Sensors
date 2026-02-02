@@ -24,3 +24,8 @@ GateMe utilizes a magnetic contact switch to determine if a gate is open or clos
 - **Duration Tracking**: Reports how long (in seconds) the gate has been in its current state.
 - **Extended Open Alert**: Logic included to flag gates left open longer than a threshold (default 5 min).
 - **Environment Context**: Useful for monitoring perimeter gates or barn doors where temp/humidity impacts livestock.
+
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

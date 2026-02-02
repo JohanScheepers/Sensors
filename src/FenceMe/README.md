@@ -28,3 +28,8 @@ FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It p
 
 > [!CAUTION]
 > Electric fences carry high voltages. Ensure all connections follow strict safety guidelines and proper hardware isolation is used.
+
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

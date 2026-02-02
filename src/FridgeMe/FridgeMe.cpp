@@ -1,3 +1,12 @@
+/*
+ *Copyright(c) 2025 Signal - Owl PTY LTD
+ *
+ * All Rights Reserved.
+ *
+ * Unauthorized copying of this file,
+ * via any medium is strictly prohibited.Proprietary and confidential.
+ */
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -7,7 +16,7 @@
 
 // --- Configuration ---
 #define NODE_ID "FRI01"
-#define SENSOR_TYPE_ID 3
+#define SENSOR_TYPE_ID 4
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define ONE_WIRE_BUS 4

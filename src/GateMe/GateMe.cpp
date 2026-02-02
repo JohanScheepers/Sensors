@@ -1,3 +1,12 @@
+/*
+ *Copyright(c) 2025 Signal - Owl PTY LTD
+ *
+ * All Rights Reserved.
+ *
+ * Unauthorized copying of this file,
+ * via any medium is strictly prohibited.Proprietary and confidential.
+ */
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -5,7 +14,7 @@
 
 // --- Configuration ---
 #define NODE_ID "GAT01"
-#define SENSOR_TYPE_ID 4
+#define SENSOR_TYPE_ID 5
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 10000 
 #define GATE_PIN 7

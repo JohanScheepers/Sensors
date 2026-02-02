@@ -30,3 +30,7 @@ RainMe transforms the standard environmental monitor into a high-performance wea
 - **Directional Profile**: 0-359° directional mapping for wind vector analysis.
 - **Rain Profiling**: Interrupt-driven pulse counting for accurate, cumulative precipitation tracking (running total mm).
 - **Environment Fusion**: Combines humidity, pressure, and temperature to provide a holistic weather forecast profile.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

@@ -1,3 +1,12 @@
+/*
+*Copyright(c) 2025 Signal - Owl PTY LTD
+*
+* All Rights Reserved.
+*
+* Unauthorized copying of this file,
+* via any medium is strictly prohibited.Proprietary and confidential.
+*/
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -5,14 +14,14 @@
 
 // --- Configuration ---
 #define NODE_ID "DAM01"
-#define SENSOR_TYPE_ID 2
+#define SENSOR_TYPE_ID 1
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define TRIG_PIN 5
 #define ECHO_PIN 6
 
-// --- Hardware ---
-Adafruit_BME280 bme;
+    // --- Hardware ---
+    Adafruit_BME280 bme;
 
 // --- State ---
 // Removed lastReadTime

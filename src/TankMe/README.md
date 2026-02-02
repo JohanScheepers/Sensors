@@ -25,3 +25,7 @@ TankMe measures the hydrostatic pressure of the water column to calculate the pr
 - **Large Capacity**: Supports tanks and reservoirs up to 10 meters deep.
 - **Stainless Steel Probe**: Corrosion-resistant pressure sensor housing for long-term submersion.
 - **Integrated Environment Metrics**: Tracks air temperature and humidity at the tank site.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

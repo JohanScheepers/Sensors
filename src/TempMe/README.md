@@ -25,3 +25,7 @@ TempMe uses a **BME280** sensor to monitor barometric pressure, humidity, and te
 - **Mesh Ready**: Designed to plug directly into mesh radio modules.
 - **Interval**: Default 60-second telemetry update.
 - **Compact Build**: Small footprint for versatile deployment.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

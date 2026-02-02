@@ -1,3 +1,12 @@
+/*
+ *Copyright(c) 2025 Signal - Owl PTY LTD
+ *
+ * All Rights Reserved.
+ *
+ * Unauthorized copying of this file,
+ * via any medium is strictly prohibited.Proprietary and confidential.
+ */
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -5,7 +14,7 @@
 
 // --- Configuration ---
 #define NODE_ID "TNK01"
-#define SENSOR_TYPE_ID 6
+#define SENSOR_TYPE_ID 9
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define PRESSURE_PIN A0

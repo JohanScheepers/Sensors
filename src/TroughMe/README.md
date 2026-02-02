@@ -25,3 +25,7 @@ TroughMe uses a high-sensitivity pressure sensor optimized for shallow depths. I
 - **Livestock Safety**: Low voltage operation with no submerged electronic parts (pressure tube only).
 - **Critical Alerts**: Immediate alerts for low trough levels.
 - **Compact Integrated Base**: Built on the base TempMe architecture.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

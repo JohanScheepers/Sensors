@@ -27,3 +27,8 @@ MoistureMe interfaces with high-precision multisensor probes (e.g., Sentek, Deca
 - **Raw Data Passthrough**: Transmits uncalibrated digital values to allow for sophisticated backend modeling.
 - **Atmospheric Context**: Combines multi-level soil data with air temperature, humidity, and pressure for complete environmental monitoring.
 - **Low Power**: SDI-12 bus power management integrated into firmware.
+
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

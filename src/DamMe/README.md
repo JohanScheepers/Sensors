@@ -26,3 +26,8 @@ DamMe utilizes high-frequency sound waves to measure the distance to the water s
 - **Air Density Compensation**: Uses BME280 temperature data to calibrate the speed of sound for higher accuracy.
 - **Dual Monitoring**: Tracks both water distance and ambient environmental metrics.
 - **Rugged Design**: Optimized for outdoor deployment near open water bodies.
+
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

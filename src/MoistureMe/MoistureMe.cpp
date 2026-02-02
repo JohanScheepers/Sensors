@@ -1,3 +1,12 @@
+/*
+ *Copyright(c) 2025 Signal - Owl PTY LTD
+ *
+ * All Rights Reserved.
+ *
+ * Unauthorized copying of this file,
+ * via any medium is strictly prohibited.Proprietary and confidential.
+ */
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -5,9 +14,8 @@
 #include <SDI12.h>
 
 // --- Configuration ---
-#define NODE_ID "MOI01" // Legacy ID, not used in binary packet
-// Node Type: MoistureMe = 9
-#define SENSOR_TYPE_ID 9 
+#define NODE_ID "MOI01"
+#define SENSOR_TYPE_ID 6 
 #define UART_STREAM_PORT Serial
 #define SENSOR_READ_INTERVAL 60000 
 #define SDI12_DATA_PIN 2  // Digital pin for SDI-12 data

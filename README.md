@@ -2,6 +2,8 @@
 
 A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed UART JSON protocol.
 
+<img src="./assets/box.webp" width="500" />
+
 ## System Architecture
 
 All nodes (except the Gateway) share a common base architecture:
@@ -9,7 +11,6 @@ All nodes (except the Gateway) share a common base architecture:
 - **Environment**: Bosch BME280 (Temp, Humidity, Pressure)
 - **Messaging**: Standardized JSON over UART (115200 baud)
 - **Power**: Optimized for battery and low-power mesh operation
-
 
 ## Sensor Catalog
 
@@ -20,6 +21,10 @@ Non-contact water level monitoring for dams and open water using ultrasonic rang
 ### [FenceMe](./src/FenceMe)
 
 Safety-critical monitoring for electric fences up to 12kV. Includes local LED alert.
+
+### [ForestRanger](./scr/ForestRanger)
+
+Forest monitoring for wildfire detection and illegala logging and activities.
 
 ### [FridgeMe](./src/FridgeMe)
 
@@ -78,16 +83,17 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | Sensor Type | Byte 1 Value |
 | ----------- | ------------ |
 | TempMe      | 0            |
-| TroughMe    | 1            |
-| DamMe       | 2            |
-| FridgeMe    | 3            |
-| GateMe      | 4            |
-| SwitchMe    | 5            |
-| TankMe      | 6            |
-| ValveMe     | 7            |
-| RainMe      | 8            |
-| MoistureMe  | 9            |
-| FenceMe     | 10           |
+| DamMe       | 1            |
+| FenceME     | 2            |
+| ForesRanger | 3            |
+| FridgeMe    | 4            |
+| GateMe      | 5            |
+| MoistureMe  | 6            |
+| RainMe      | 7            |
+| SwitchMe    | 8            |
+| TankMe      | 9            |
+| TroughMe    | 10           |
+| ValveMe     | 11           |
 
 **Common Data Types:**
 
@@ -104,56 +110,62 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Altitude |
 
-**TroughMe (7 bytes total)**
+**DamMe (7 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Water Level (mm)|
+| Type | Air Temp | Humidity | Pressure | Water Distance|
 
 **FenceMe (7 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Fence Voltage|
 
-**DamMe (7 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Water Distance|
-
-**GateMe (6 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Gate Status (1=Open)|
-
-**SwitchMe (6 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Switch Status (1=On)|
-
-**ValveMe (6 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
-
-**RainMe (12 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
-|---|---|---|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Rainfall (uint32) | Wind Speed | Wind Gust | Wind Dir|
-
-**MoistureMe (17 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
-|---|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Soil Temp 1-4 | Moisture 1-4 |
+**ForestRanger**
 
 **FridgeMe (6 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Fridge Temp|
 
+**GateMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Gate Status (1=Open)|
+
+**MoistureMe (17 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
+|---|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Soil Temp 1-4 | Moisture 1-4 |
+
+**RainMe (12 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
+|---|---|---|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Rainfall (uint32) | Wind Speed | Wind Gust | Wind Dir|
+
+**SwitchMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Switch Status (1=On)|
+
 **TankMe (7 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Tank Level (mm)|
 
+**TroughMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Water Level (mm)|
+
+**ValveMe (6 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+| Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
+
 ---
 
 _Developed with PlatformIO for professional ARM-based embedded development._
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

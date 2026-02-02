@@ -25,3 +25,7 @@ ValveMe controls a high-current 12VDC solenoid valve using an integrated relay. 
 - **Manual Override Support**: Responds to serial "OPEN" and "CLOSE" commands for manual control.
 - **Environment Interlock**: Telemetry allows for logic and safety checks (e.g., disable valve if temp < 2°C to prevent freezing).
 - **Status Indication**: Local LED visualizes valve state.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.

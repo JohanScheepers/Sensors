@@ -25,3 +25,7 @@ FridgeMe combines ambient environment monitoring with a highly accurate remote t
 - **High Accuracy**: ±0.5°C accuracy from -10°C to +85°C.
 - **Safety Alerts**: Automated warnings for temperature spikes (>5°C) or freezer failures.
 - **Ambient Monitoring**: Tracks room conditions (humidity/temp) to identify condensation risks.
+
+## License
+
+This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.
