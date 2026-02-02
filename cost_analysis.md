@@ -94,18 +94,23 @@ N = R 50,735.00 / R 78.99 ≈ 642.3
 
 ---
 
-## 5. Conclusion
+The inclusion of the **R 3.7167 LNS fee** and high-capacity **Solar Infrastructure (R 11,000 per remote site)** shifts the financial viability significantly based on deployment topology and density.
 
-The updated LNS fee of **R3.7167 per device/month** further solidifies LoRaWAN's position as the most cost-effective solution for scaled deployments.
+1.  **High-Density / Grid-Powered (Scenario A/B)**: **LoRaWAN is the winner.**
+    *   If grid power is available (eliminating solar costs) OR if density exceeds **650 sensors** per 5 gateways, the R 120 module cost provides an unbeatable TCO.
+    *   *Recommendation*: Use LoRaWAN for large commercial hubs or sites with pre-existing power infrastructure.
 
-1.  **For Standard/Volume Deployments (>50 sensors)**: **LoRaWAN is the definitive winner.**
-    *   The significant CAPEX savings on radio modules (**R120 vs R422**) create a massive financial cushion.
-    *   LoRaWAN remains cheaper for a minimum of **6 to 6.6 years** (74-79 months) depending on scale. This duration likely exceeds the operational battery life of the sensors themselves.
-    *   *Recommendation*: For any commercial or agricultural project where sensor volume is the primary driver, LoRaWAN offers the lowest Total Cost of Ownership (TCO) over the device lifecycle.
+2.  **Distributed / Solar-Powered (Scenario B/4.4)**: **Mesh is the winner.**
+    *   When solar/battery kits (R 11,000 each) are required for gateways, the "Infrastructure Debt" scales to **R 13,297 per site**.
+    *   In a typical farm layout (e.g., 100 sensors across 5 solar gateways), the R 302 module saving is not enough to offset the R 50,000+ infrastructure premium and recurring LNS fees.
+    *   *Recommendation*: Use Mesh for typical agricultural deployments where sensor density per gateway is low to moderate.
 
-2.  **For High-Complexity/Low-Density Deployments (<20 sensors)**: **Mesh is the winner.**
-    *   In environments requiring many gateways for few devices (e.g., mine shafts, extremely hilly terrain), Mesh's lower gateway cost (**R950 vs R2297**) and zero monthly fees make it the superior choice.
-    *   Mesh starts cheaper and stays cheaper because the infrastructure savings are never eroded by recurring fees.
+3.  **Small & Complex (Scenario C)**: **Mesh is the definitive winner.**
+    *   In environments requiring many gateways for very few devices (e.g., mine shafts, extremely hilly terrain, small remote outposts), Mesh's R 950 gateway cost and zero monthly fees make it the only logical choice.
+    *   LoRaWAN in this scenario starts R 47,000 more expensive and the gap widens every month due to LNS fees.
+    *   *Recommendation*: Use Mesh as a tactical solution for coverage gaps and low-density remote monitoring.
 
 ### Final Recommendation
-**Standardize on LoRaWAN** for general-purpose IoT sensor networks. The "break-even" point has moved out to over 6 years, making the initial investment in higher-cost gateways more than justified by the long-term module savings. Use Mesh only as a tactical solution for extreme coverage gaps that cannot be economically reached via LoRaWAN.
+**Standardize on Mesh for small-to-medium agricultural deployments (under 600 nodes)** where solar-powered gateways are required for coverage. The "Infrastructure Debt" created by solar-powered LoRaWAN gateways (R13,297/site) and the LNS fees only make sense at extreme scale.
+
+**Use LoRaWAN only as a tactical solution** for high-density industrial clusters or locations with existing grid-powered gateways where the CAPEX savings on the R120 modules can be realized without the solar infrastructure overhead.

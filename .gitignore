@@ -1,0 +1,56 @@
+# Root / General
+firebase-debug.log
+py.py
+/images
+.DS_Store
+.history
+.svn/
+*.log
+*.swp
+~$*.docx
+~*.tmp
+*.iml
+
+# PlatformIO
+.pio/
+.vscode/
+
+# Flutter/App Specific (Migrated from App/.gitignore)
+# Miscellaneous
+App/*.class
+App/*.pyc
+App/.DS_Store
+App/.atom/
+App/.build/
+App/.buildlog/
+App/.history
+App/.svn/
+App/.swiftpm/
+App/migrate_working_dir/
+
+# IntelliJ related
+App/*.iml
+App/*.ipr
+App/*.iws
+App/.idea/
+
+# Flutter/Dart/Pub related
+App/**/doc/api/
+App/**/ios/Flutter/.last_build_id
+App/.dart_tool/
+App/.flutter-plugins-dependencies
+App/.pub-cache/
+App/.pub/
+App/build/
+App/coverage/
+
+# Symbolication related
+App/app.*.symbols
+
+# Obfuscation related
+App/app.*.map.json
+
+# Android Studio artifacts
+App/android/app/debug
+App/android/app/profile
+App/android/app/release

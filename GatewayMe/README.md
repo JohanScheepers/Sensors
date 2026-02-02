@@ -5,7 +5,6 @@ The primary coordinator and internet gateway for the IOT sensor network.
 ## Overview
 GatewayMe serves as the central bridge between the local autonomous mesh network and the internet. It aggregates JSON telemetry from all sensor nodes and forwards it to the cloud backend via a secure Ethernet connection.
 
-<img src="./gateway_controller.png" width="600" />
 
 ## Hardware Specifications
 - **Connectivity**: Integrated RJ45 Ethernet Port (W5500 or similar)
