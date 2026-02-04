@@ -14,11 +14,13 @@ TankMe measures the hydrostatic pressure of the water column to calculate the pr
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 6
+**Sensor Type ID:** 9
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type (6) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Water Level mm (uint16)|
+**8 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
+|---|---|---|---|---|---|
+| Type (9) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Tank Level mm (uint16) |
 
 ## Features
 - **Hydrostatic Precision**: Highly accurate level measurement based on liquid pressure.

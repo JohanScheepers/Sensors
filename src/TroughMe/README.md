@@ -14,11 +14,13 @@ TroughMe uses a high-sensitivity pressure sensor optimized for shallow depths. I
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 1
+**Sensor Type ID:** 10
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type (1) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Limit (mm)|
+**8 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
+|---|---|---|---|---|---|
+| Type (10) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Water Level mm (uint16) |
 
 ## Features
 - **Shallow Water Optimization**: Optimized for 0-1.5m range for superior vertical resolution compared to standard tank sensors.

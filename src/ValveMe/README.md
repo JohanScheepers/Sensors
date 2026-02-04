@@ -14,11 +14,13 @@ ValveMe controls a high-current 12VDC solenoid valve using an integrated relay. 
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 7
+**Sensor Type ID:** 11
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type (7) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Valve State (1=Open)|
+**7 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 |
+|---|---|---|---|---|---|
+| Type (11) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Valve Status (uint8) |
 
 ## Features
 - **Active Power Tracking**: Monitors open duration to prevent overflow and estimate liquid volume.

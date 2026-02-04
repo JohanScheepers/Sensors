@@ -26,7 +26,7 @@ Non-contact water level monitoring for dams and open water using ultrasonic rang
 
 Safety-critical monitoring for electric fences up to 12kV. Includes local LED alert.
 
-### [ForestRanger](./scr/ForestRanger)
+### [ForesRanger](./src/ForesRanger)
 
 Forest monitoring for wildfire detection and illegal logging and activities via ML on the edge.
 
@@ -90,6 +90,10 @@ Tracking for live stock geo-location and fencing.
 
 Monitoring pivot irrigation systems for movement, water usage and pressure.
 
+*** [CO2Me](./src/CO2Me)**
+
+Monitoring CO2 levels in greenhouses and warehouses.
+
 ---
 
 ## Sensor Data Encoding
@@ -115,6 +119,7 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | SiloMe      | 12           |
 | TrackMe     | 13           |
 | PivotMe     | 14           |
+| CO2Me       | 15           |
 
 ---
 
@@ -146,6 +151,8 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Valve Status: `uint8_t` (1=Open, 0=Closed)
 - Silo Level: `uint16_t` (m)
 - Meter: `uint32_t` (m<sup>3</sup>)
+- CO2: `uint16_t` (ppm)
+- VOC: `uint16_t` (ppm)
 
 **TempMe (6 bytes total)**
 
@@ -227,15 +234,21 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 
 **TrackMe (20 bytes total)**
 
-| -    | Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 |
+| Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 |
 | ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- |
 | Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude |
 
 **PivotMe (26 bytes total)**
 
-| -    | Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 | Bytes 21-22 | Bytes 23-26 |
+| Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 | Bytes 21-22 | Bytes 23-26 |
 | ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- | ---|---|
 | Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude | Pressure | Meter |
+
+**CO2Me (10 bytes total)**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 | Byte 9-10 |
+| ------ | -------- | -------- | -------- | ------- | -------- | --------- |
+| Type | Air Temp | Humidity | Pressure | Battery | CO2 | VOC |
 
 ---
 

@@ -13,11 +13,13 @@ SwitchMe provides a remote-controlled logic output (TTL) and a status LED. It al
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 5
+**Sensor Type ID:** 8
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type (5) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Switch State (1=On)|
+**7 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 |
+|---|---|---|---|---|---|
+| Type (8) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Switch Status (uint8) |
 
 ## Features
 - **Remote Command Processing**: Listens for "ON" and "OFF" serial commands via UART.

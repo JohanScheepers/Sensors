@@ -15,11 +15,13 @@ MoistureMe interfaces with high-precision multisensor probes (e.g., Sentek, Deca
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 9
+**Sensor Type ID:** 6
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
-|---|---|---|---|---|---|
-| Type (9) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Soil Temp 1-4 (4x int16) | Moisture 1-4 (4x uint8)|
+**14 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 | Byte 8 | Byte 9 | Byte 10 | Byte 11 | Byte 12 | Byte 13 | Byte 14 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Type (6) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Soil Temp 1 (int8) | Soil Temp 2 (int8) | Soil Temp 3 (int8) | Soil Temp 4 (int8) | Soil Moisture 1 (uint8) | Soil Moisture 2 (uint8) | Soil Moisture 3 (uint8) | Soil Moisture 4 (uint8) |
 
 ## Features
 - **SDI-12 Integration**: Supports industry-standard soil probes via the digital data interface.

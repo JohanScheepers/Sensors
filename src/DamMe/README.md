@@ -15,11 +15,13 @@ DamMe utilizes high-frequency sound waves to measure the distance to the water s
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 2
+**Sensor Type ID:** 1
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Water Dist mm (uint16)|
+**8 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
+|---|---|---|---|---|---|
+| Type (1) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Water Dist mm (uint16)|
 
 ## Features
 - **Non-Contact Sensing**: High reliability in varying water levels.

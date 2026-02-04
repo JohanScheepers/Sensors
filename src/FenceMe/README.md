@@ -14,11 +14,13 @@ FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It p
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 10
+**Sensor Type ID:** 2
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type (10) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Voltage kV*100 (uint16)|
+**8 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
+|---|---|---|---|---|---|
+| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Voltage kV*100 (uint16)|
 
 ## Features
 - **High Voltage Isolation**: Designed with optoisolation to protect the MCU from kV surges.

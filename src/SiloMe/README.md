@@ -14,9 +14,11 @@ A non-contact silo fill monitoring solution designed for silos (0-15m) using ult
 
 **Sensor Type ID:** 12
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Dist m (uint16)|
+**8 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
+|---|---|---|---|---|---|
+| Type (12) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Dist m (uint16) |
 
 ## Features
 - **Non-Contact Sensing**: High reliability in varying silo levels.

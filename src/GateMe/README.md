@@ -13,11 +13,13 @@ GateMe utilizes a magnetic contact switch to determine if a gate is open or clos
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 4
+**Sensor Type ID:** 5
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type (4) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Gate Open (1=True)|
+**7 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 |
+|---|---|---|---|---|---|
+| Type (5) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Status (uint8) |
 
 ## Features
 - **State Change Detection**: Immediate JSON broadcast upon gate opening/closing.

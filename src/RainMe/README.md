@@ -18,11 +18,13 @@ RainMe transforms the standard environmental monitor into a high-performance wea
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 8
+**Sensor Type ID:** 7
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
-|---|---|---|---|---|---|---|---|
-| Type (8) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Rain Tips (uint32) | Wind Spd (uint8) | Gust (uint8) | Dir (uint8)|
+**13 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-10 | Byte 11 | Byte 12 | Byte 13 |
+|---|---|---|---|---|---|---|---|---|
+| Type (7) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Rainfall (uint32) | Wind Speed (uint8) | Wind Gust (uint8) | Wind Dir (uint8) |
 
 ## Features
 - **Precise Wind Tracking**: Uses dedicated interrupts to capture high-speed wind pulses.

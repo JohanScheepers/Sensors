@@ -14,11 +14,13 @@ FridgeMe combines ambient environment monitoring with a highly accurate remote t
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 3
+**Sensor Type ID:** 4
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type (3) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Probe Temp (int8)|
+**7 bytes total**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 |
+|---|---|---|---|---|---|
+| Type (4) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Fridge Temp (int8) |
 
 ## Features
 - **Remote Probing**: Allows monitoring deep inside freezers without compromising signal strength.
