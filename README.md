@@ -1,10 +1,12 @@
-<img src="./assets/icon.png" width="500"  style="border: 2px solid #888; border-radius: 15px;"/>
+
+
+<img src="./assets/icon.png" width="500"/>
 
 # IOT Sensor Network
 
 A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed UART JSON protocol.
 
-<img src="./assets/box.webp" width="500" style="border: 2px solid #888; border-radius: 15px;"/>
+<img src="./assets/box.webp" width="500"/>
 
 ## System Architecture
 
