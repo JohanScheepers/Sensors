@@ -119,7 +119,7 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 **TempMe (7 bytes total)**
 
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 |
-|---|---|---|---|---|
+|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure |
 
 **DamMe (7 bytes total)**
