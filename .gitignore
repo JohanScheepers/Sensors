@@ -2,6 +2,7 @@
 firebase-debug.log
 py.py
 /images
+\src\TempMe\pcb
 .DS_Store
 .history
 .svn/
