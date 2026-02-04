@@ -18,7 +18,7 @@ TempMe uses a **BME280** sensor to monitor barometric pressure, humidity, and te
 
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
-| Type (0) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Altitude (int16)|
+| Type (0) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | 
 
 ## Features
 - **Celsius Precision**: All temperature readings are strictly in °C.

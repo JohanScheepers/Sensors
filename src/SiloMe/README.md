@@ -1,9 +1,6 @@
-# DamMe - Dam & Water Level Monitor (Ultrasonic)
+# SiloMe
 
-A non-contact water level monitoring solution designed for dams, reservoirs, or open containers.
-
-## Overview
-DamMe utilizes high-frequency sound waves to measure the distance to the water surface. This non-contact method is ideal for environments where sensors cannot be easily submerged or where water debris might interfere with contact sensors.
+A non-contact silo fill monitoring solution designed for silos (0-15m) using ultrasonic ranging.
 
 ## Hardware Specifications
 - **MCU**: ARM
@@ -15,14 +12,14 @@ DamMe utilizes high-frequency sound waves to measure the distance to the water s
 
 ## Binary Data Payload
 
-**Sensor Type ID:** 2
+**Sensor Type ID:** 12
 
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
-| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Water Dist mm (uint16)|
+| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Dist m (uint16)|
 
 ## Features
-- **Non-Contact Sensing**: High reliability in varying water levels.
+- **Non-Contact Sensing**: High reliability in varying silo levels.
 - **Air Density Compensation**: Uses BME280 temperature data to calibrate the speed of sound for higher accuracy.
 - **Dual Monitoring**: Tracks both water distance and ambient environmental metrics.
 - **Rugged Design**: Optimized for outdoor deployment near open water bodies.

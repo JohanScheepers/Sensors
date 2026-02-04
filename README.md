@@ -76,6 +76,11 @@ Precision low-range monitoring (0-1.5m) for livestock drinking troughs.
 
 Automated flow control for 12VDC solenoid valves.
 
+### [SiloMe](./src/SiloMe)
+
+Monitors levels in silos (0-15m) using ultrasonic rangefinder.
+
+
 ## Sensor Data Encoding
 
 All sensor data is encoded in a compact binary format and sent over the mesh network.
@@ -96,6 +101,10 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | TankMe      | 9            |
 | TroughMe    | 10           |
 | ValveMe     | 11           |
+| SiloMe      | 12           |
+
+---
+
 
 **Common Data Types:**
 
@@ -108,9 +117,9 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Voltage/kV: `uint16_t` (kV \* 100)
 
 **TempMe (7 bytes total)**
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 |
 |---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Altitude |
+| Type | Air Temp | Humidity | Pressure |
 
 **DamMe (7 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
@@ -167,6 +176,11 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
+
+**SiloMe (7 bytes total)**
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
+|---|---|---|---|---|
+| Type | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Dist m (uint16)|
 
 ---
 
