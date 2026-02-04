@@ -13,26 +13,25 @@
 #include <Adafruit_BME280.h>
 
 // --- Configuration ---
-#define NODE_ID "GAT01"
-#define SENSOR_TYPE_ID 5
+#define NODE_ID "SIL01"
+#define SENSOR_TYPE_ID 12
 #define UART_STREAM_PORT Serial
-#define SENSOR_READ_INTERVAL 10000 
-#define GATE_PIN 7
+#define SENSOR_READ_INTERVAL 60000 
+#define TRIG_PIN 5
+#define ECHO_PIN 6
 
 // --- Hardware ---
 Adafruit_BME280 bme;
 
 // --- State ---
-bool lastGateState = false;
-unsigned long gateOpenTime = 0;
 
-// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (7 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
   uint8_t battery;
-  uint8_t gateOpen; // 1 = open, 0 = closed
+  uint16_t level; // mm
 };
 
 SensorPacket currentPacket;
@@ -40,9 +39,22 @@ SensorPacket currentPacket;
 void setup() {
   UART_STREAM_PORT.begin(115200);
   Wire.begin();
-  if (!bme.begin(0x76)) while (1);
+  if (!bme.begin(0x76)) {
+      // Basic fallback
+  }
   bme.setSampling(Adafruit_BME280::MODE_NORMAL, Adafruit_BME280::SAMPLING_X2, Adafruit_BME280::SAMPLING_X16, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_X16, Adafruit_BME280::STANDBY_MS_500);
-  pinMode(GATE_PIN, INPUT_PULLUP);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+}
+
+uint16_t getDistanceMM() {
+  digitalWrite(TRIG_PIN, LOW); delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH); delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  long dur = pulseIn(ECHO_PIN, HIGH, 30000);
+  if (dur == 0) return 0;
+  float dist = (dur * 0.343f) / 2.0f;
+  return (uint16_t)dist;
 }
 
 void readSensors() {
@@ -50,12 +62,7 @@ void readSensors() {
   currentPacket.airHum = (uint8_t)bme.readHumidity();
   currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
   currentPacket.battery = 4; // Placeholder
-  currentPacket.gateOpen = (digitalRead(GATE_PIN) == HIGH) ? 1 : 0;
-  
-  // Logic tracking (local only usage or debug)
-  bool isOpen = (currentPacket.gateOpen == 1);
-  if (isOpen && !lastGateState) gateOpenTime = millis();
-  lastGateState = isOpen;
+  currentPacket.level = getDistanceMM();
 }
 
 void transmitToMesh() {

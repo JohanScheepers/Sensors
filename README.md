@@ -88,6 +88,8 @@ Tracking for live stock geo-location and fencing.
 
 ### [PivotMe](./src/PivotMe)
 
+Monitoring pivot irrigation systems for movement, water usage and pressure.
+
 ---
 
 ## Sensor Data Encoding
@@ -144,9 +146,6 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Valve Status: `uint8_t` (1=Open, 0=Closed)
 - Silo Level: `uint16_t` (m)
 - Meter: `uint32_t` (m<sup>3</sup>)
-
-
-
 
 **TempMe (6 bytes total)**
 

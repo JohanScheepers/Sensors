@@ -26,11 +26,12 @@ Adafruit_BME280 bme;
 // Removed lastReadTime
 bool valveOpen = false;
 
-// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
+  uint8_t battery;
   uint8_t state; // 1 = open, 0 = closed
 };
 
@@ -63,6 +64,7 @@ void readSensors() {
   currentPacket.airTemp = (int8_t)bme.readTemperature();
   currentPacket.airHum = (uint8_t)bme.readHumidity();
   currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.battery = 4; // Placeholder
   currentPacket.state = valveOpen ? 1 : 0;
 }
 

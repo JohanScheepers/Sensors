@@ -1,5 +1,6 @@
 # PivotMe
 
+Monitoring pivot irrigation systems for movement, water usage and pressure.
 
 ## Hardware Specification
 

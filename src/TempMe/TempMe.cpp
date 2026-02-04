@@ -25,12 +25,12 @@ Adafruit_BME280 bme;
 // --- State ---
 // Removed lastReadTime
 
-// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
-  int16_t altitude; 
+  uint8_t battery; 
 };
 
 SensorPacket currentPacket;
@@ -58,7 +58,7 @@ void readSensors() {
   currentPacket.airTemp = (int8_t)bme.readTemperature();
   currentPacket.airHum = (uint8_t)bme.readHumidity();
   currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
-  currentPacket.altitude = (int16_t)bme.readAltitude(SEALEVELPRESSURE_HPA);
+  currentPacket.battery = 4; // Placeholder for 4.0V
 }
 
 void transmitToMesh() {

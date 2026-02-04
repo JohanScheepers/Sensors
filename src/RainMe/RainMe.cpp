@@ -36,11 +36,12 @@ volatile unsigned long windPulses = 0;
 unsigned long lastRainTipTime = 0;
 unsigned long lastWindPulseTime = 0;
 
-// Packed struct for binary transmission (11 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (12 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
+  uint8_t battery;
   uint32_t rainTips;       // Total count to date
   uint8_t windSpeed;       // m/s
   uint8_t windGust;        // m/s
@@ -93,14 +94,10 @@ void setup() {
 }
 
 void readSensors() {
-  float t = bme.readTemperature();
-  currentPacket.airTemp = (int8_t)t;
-  
-  float h = bme.readHumidity();
-  currentPacket.airHum = (uint8_t)h;
-  
-  float p = bme.readPressure() / 100.0F;
-  currentPacket.airPres = (uint16_t)p;
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.battery = 4; // Placeholder
   
   // Rainfall (Total Tips)
   currentPacket.rainTips = (uint32_t)rainTips;

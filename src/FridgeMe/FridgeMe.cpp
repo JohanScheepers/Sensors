@@ -29,11 +29,12 @@ DallasTemperature ds18b20(&oneWire);
 // --- State ---
 // Removed lastReadTime
 
-// Packed struct for binary transmission (5 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (6 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
+  uint8_t battery;
   int8_t probeTemp;
 };
 
@@ -51,6 +52,7 @@ void readSensors() {
   currentPacket.airTemp = (int8_t)bme.readTemperature();
   currentPacket.airHum = (uint8_t)bme.readHumidity();
   currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.battery = 4; // Placeholder
   ds18b20.requestTemperatures();
   currentPacket.probeTemp = (int8_t)ds18b20.getTempCByIndex(0);
 }

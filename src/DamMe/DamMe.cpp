@@ -26,11 +26,12 @@
 // --- State ---
 // Removed lastReadTime
 
-// Packed struct for binary transmission (6 bytes data + 1 byte type)
+// Packed struct for binary transmission (7 bytes data + 1 byte type)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
+  uint8_t battery;
   uint16_t waterDist; // mm
 };
 
@@ -64,6 +65,7 @@ void readSensors() {
   currentPacket.airTemp = (int8_t)bme.readTemperature();
   currentPacket.airHum = (uint8_t)bme.readHumidity();
   currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.battery = 4; // Placeholder
   currentPacket.waterDist = getDistdMM();
 }
 

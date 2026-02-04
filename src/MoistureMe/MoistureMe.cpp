@@ -28,13 +28,14 @@ SDI12 sdi12(SDI12_DATA_PIN);
 // --- State ---
 // Removed lastReadTime
 
-// Packed struct for binary transmission (16 bytes data + 1 byte type sent separately)
+// Packed struct for binary transmission (13 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
   int8_t airTemp;
   uint8_t airHum;
   uint16_t airPres;
-  int16_t soilTemp[4];     // 4 Depths (centi-degrees)
-  uint8_t moisture[4];     // 4 Depths (raw or percentage)
+  uint8_t battery;
+  int8_t soilTemp[4];     // 4 Depths
+  uint8_t moisture[4];     // 4 Depths
 };
 
 SensorPacket currentPacket;
@@ -94,12 +95,12 @@ bool readSDI12() {
         // Read Temp
         if (pos != -1) {
             float t = response.substring(pos).toFloat();
-            currentPacket.soilTemp[i] = (int16_t)(t * 100); // centi-degrees
+            currentPacket.soilTemp[i] = (int8_t)t; 
             // Move to next
             pos = response.indexOf('+', pos + 1);
             if (pos == -1) pos = response.indexOf('-', pos + 1);
         } else {
-            currentPacket.soilTemp[i] = -9900;
+            currentPacket.soilTemp[i] = -99;
         }
 
         // Read Moisture
@@ -119,19 +120,15 @@ bool readSDI12() {
 }
 
 void readSensors() {
-  float t = bme.readTemperature();
-  currentPacket.airTemp = (int8_t)t;
-  
-  float h = bme.readHumidity();
-  currentPacket.airHum = (uint8_t)h;
-  
-  float p = bme.readPressure() / 100.0F;
-  currentPacket.airPres = (uint16_t)p;
+  currentPacket.airTemp = (int8_t)bme.readTemperature();
+  currentPacket.airHum = (uint8_t)bme.readHumidity();
+  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
+  currentPacket.battery = 4; // Placeholder
   
   if (!readSDI12()) {
       // Fill with error values if SDI-12 fails
       for(int i=0; i<4; i++) {
-          currentPacket.soilTemp[i] = -9900;
+          currentPacket.soilTemp[i] = -99;
           currentPacket.moisture[i] = 0;
       }
   }
