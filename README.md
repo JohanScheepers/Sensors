@@ -1,10 +1,10 @@
-<img src="./assets/icon.png" width="500" />
+<img src="./assets/icon.png" width="500"  style="border: 2px solid #888; border-radius: 15px;"/>
 
 # IOT Sensor Network
 
 A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed UART JSON protocol.
 
-<img src="./assets/box.webp" width="500" />
+<img src="./assets/box.webp" width="500" style="border: 2px solid #888; border-radius: 15px;"/>
 
 ## System Architecture
 
@@ -80,6 +80,11 @@ Automated flow control for 12VDC solenoid valves.
 
 Monitors levels in silos (0-15m) using ultrasonic rangefinder.
 
+### [TrackMe](./src/TrackMe)
+
+Tracking for live stock geo-location and fencing.
+
+---
 
 ## Sensor Data Encoding
 
@@ -102,97 +107,123 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | TroughMe    | 10           |
 | ValveMe     | 11           |
 | SiloMe      | 12           |
+| TrackMe     | 13           |
 
 ---
-
 
 **Common Data Types:**
 
 - Temperature: `int8_t` (raw data, ranges from -128 to 127°C)
 - Humidity: `uint8_t` (0-100%)
 - Pressure: `uint16_t` (hPa, e.g., 1013)
-- Soil Temp: `int16_t` (centi-degrees, e.g., 2550 = 25.50°C)
+- Battery : `uint8_t` (V)
+- Fence Voltage: `uint16_t` (kV)
+- Gate Status: `uint8_t` (1=Open, 0=Closed)
+- Soil Temp: `int8_t` (raw data, ranges from -128 to 127°C)
+- Soil Moisture: `uint16_t` (raw data, ranges from 0 to 100%)
 - Rainfall: `uint32_t` (total count of tips)
+- Wind Speed: `uint8_t` (km/h)
+- Wind Direction: `uint16_t` (degrees)
+- Wind Gust: `uint8_t` (km/h)
+- Switch Status: `uint8_t` (1=On, 0=Off)
 - Distance: `uint16_t` (mm)
 - Voltage/kV: `uint16_t` (kV \* 100)
+- Latitude : `unint32_t` (lon)
+- Longitude : `unint32_t` (lat)
+- Speed: `uint8_t` (km/h)
+- Course: `uint16_t` (degrees)
+- hdop: `uint8_t` (0-100)
+- Altitude: `uint16_t` (mm)
+- Water Level: `uint16_t` (mm)
+- Tank Level: `uint16_t` (mm)
+- Valve Status: `uint8_t` (1=Open, 0=Closed)
+- Silo Level: `uint16_t` (m)
 
-**TempMe (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 |
-|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure |
 
-**DamMe (7 bytes total)**
+**TempMe (6 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Water Distance|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  |
+| ------ | -------- | -------- | -------- | ------- |
+| Type   | Air Temp | Humidity | Pressure | Battery |
 
-**FenceMe (7 bytes total)**
+**DamMe (8 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Fence Voltage|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8       |
+| ------ | -------- | -------- | -------- | ------- | -------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Water Distance |
 
-**ForestRanger**
+**FenceMe (8 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
- Type | Air Temp | Humidity | Pressure | |
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8      |
+| ------ | -------- | -------- | -------- | ------- | ------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Fence Voltage |
 
-**FridgeMe (6 bytes total)**
+**ForestRanger (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Fridge Temp|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7 |
+| ------ | -------- | -------- | -------- | ------- | ------ |
+| Type   | Air Temp | Humidity | Pressure | Battery |        |
 
-**GateMe (6 bytes total)**
+**FridgeMe (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Gate Status (1=Open)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7      |
+| ------ | -------- | -------- | -------- | ------- | ----------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Fridge Temp |
 
-**MoistureMe (17 bytes total)**
+**GateMe (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
-|---|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Soil Temp 1-4 | Moisture 1-4 |
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7               |
+| ------ | -------- | -------- | -------- | ------- | -------------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Gate Status |
 
-**RainMe (12 bytes total)**
+**MoistureMe (14 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
-|---|---|---|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Rainfall (uint32) | Wind Speed | Wind Gust | Wind Dir|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7      | Byte 8      | Byte 9      | Byte 10     | Byte 11    | Byte 12    | Byte 13    | Byte 14    |
+| ------ | -------- | -------- | -------- | ------- | ----------- | ----------- | ----------- | ----------- | ---------- | ---------- | ---------- | ---------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Soil Temp 1 | Soil Temp 2 | Soil Temp 3 | Soil Temp 4 | Soil Moisture 1 | Soil Moisture 2 | Soil Moisture 3 | Soil Moisture 4 |
 
-**SwitchMe (6 bytes total)**
+**RainMe (13 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Switch Status (1=On)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-10         | Byte 11    | Byte 12   | Byte 13  |
+| ------ | -------- | -------- | -------- | ------- | ----------------- | ---------- | --------- | -------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Rainfall | Wind Speed | Wind Gust | Wind Dir |
 
-**TankMe (7 bytes total)**
+**SwitchMe (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Tank Level (mm)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7               |
+| ------ | -------- | -------- | -------- | ------- | -------------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Switch Status (1=On) |
 
-**TroughMe (7 bytes total)**
+**TankMe (8 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Water Level (mm)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8        |
+| ------ | -------- | -------- | -------- | ------- | --------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Tank Level (mm) |
 
-**ValveMe (6 bytes total)**
+**TroughMe (8 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
-|---|---|---|---|---|
-| Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8         |
+| ------ | -------- | -------- | -------- | ------- | ---------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Water Level (mm) |
 
-**SiloMe (7 bytes total)**
+**ValveMe (7 bytes total)**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
-|---|---|---|---|---|
-| Type | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Dist m (uint16)|
+| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7                |
+| ------ | -------- | -------- | -------- | ------- | --------------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Valve Status (1=Open) |
+
+**SiloMe (8 bytes total)**
+
+| Byte 1 | Byte 2          | Byte 3           | Byte 4-5          | Byte 6  | Byte 7-8        |
+| ------ | --------------- | ---------------- | ----------------- | ------- | --------------- |
+| Type   | Air Temp | Humidity | Pressure | Battery | Dist m |
+
+**TrackMe (20 bytes total)**
+
+| -    | Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 |
+| ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- |
+| Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude |
 
 ---
 
