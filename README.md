@@ -1,3 +1,5 @@
+<img src="./assets/icon.png" width="500" />
+
 # IOT Sensor Network
 
 A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed UART JSON protocol.
@@ -24,7 +26,7 @@ Safety-critical monitoring for electric fences up to 12kV. Includes local LED al
 
 ### [ForestRanger](./scr/ForestRanger)
 
-Forest monitoring for wildfire detection and illegala logging and activities.
+Forest monitoring for wildfire detection and illegal logging and activities via ML on the edge.
 
 ### [FridgeMe](./src/FridgeMe)
 
@@ -121,6 +123,10 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | Type | Air Temp | Humidity | Pressure | Fence Voltage|
 
 **ForestRanger**
+
+| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
+|---|---|---|---|---|
+ Type | Air Temp | Humidity | Pressure | |
 
 **FridgeMe (6 bytes total)**
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |

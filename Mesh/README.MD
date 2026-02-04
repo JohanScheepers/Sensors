@@ -6,6 +6,7 @@ A low-power, long-range LoRa communication backbone designed for the autonomous 
 The Mesh Network module provides the fundamental communication layer for all sensor nodes, allowing for robust, long-range data transmission even in harsh or remote environments. It implements a meshed protocol that ensures data from distal nodes can hop through the network to reach the GatewayMe bridge.
 
 ## Hardware Specification
+- **MCU**: 
 - **Architecture**: Specialized LoRa System-on-Chip (SoC)
 - **Radio Frequency**: Dual-Band (Sub-GHz & 2.4 GHz)
 - **Interface**: UART (AAPI / SAPI Support)

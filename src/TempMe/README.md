@@ -6,7 +6,7 @@ The base unit for the IOT sensor network. It provides ambient environmental data
 TempMe uses a **BME280** sensor to monitor barometric pressure, humidity, and temperature. It is designed for low-power battery operation and serves as the structural base for most other specialized sensors in the family.
 
 ## Hardware Specifications
-- **MCU**: ARM (STM32/STM32L0 series)
+- **MCU**: Arm® Cortex®‑M0+ (STM32L0 series)
 - **Primary Sensor**: Bosch BME280
 - **Communication**: UART (transmitting to mesh radio)
 - **Interface**: I2C (address 0x76)
