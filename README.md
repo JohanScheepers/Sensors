@@ -86,6 +86,8 @@ Monitors levels in silos (0-15m) using ultrasonic rangefinder.
 
 Tracking for live stock geo-location and fencing.
 
+### [PivotMe](./src/PivotMe)
+
 ---
 
 ## Sensor Data Encoding
@@ -110,12 +112,13 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | ValveMe     | 11           |
 | SiloMe      | 12           |
 | TrackMe     | 13           |
+| PivotMe     | 14           |
 
 ---
 
 **Common Data Types:**
 
-- Temperature: `int8_t` (raw data, ranges from -128 to 127°C)
+- Temperature: `int8_t` (raw data, ranges from -128°C to 127°C)
 - Humidity: `uint8_t` (0-100%)
 - Pressure: `uint16_t` (hPa, e.g., 1013)
 - Battery : `uint8_t` (V)
@@ -130,16 +133,18 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Switch Status: `uint8_t` (1=On, 0=Off)
 - Distance: `uint16_t` (mm)
 - Voltage/kV: `uint16_t` (kV \* 100)
-- Latitude : `unint32_t` (lon)
-- Longitude : `unint32_t` (lat)
+- Latitude : `unint32_t` (°)
+- Longitude : `unint32_t` (°)
 - Speed: `uint8_t` (km/h)
-- Course: `uint16_t` (degrees)
+- Course: `uint16_t` (°)
 - hdop: `uint8_t` (0-100)
 - Altitude: `uint16_t` (mm)
 - Water Level: `uint16_t` (mm)
 - Tank Level: `uint16_t` (mm)
 - Valve Status: `uint8_t` (1=Open, 0=Closed)
 - Silo Level: `uint16_t` (m)
+- Meter: `uint32_t` (m<sup>3</sup>)
+
 
 
 
@@ -226,6 +231,12 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | -    | Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 |
 | ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- |
 | Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude |
+
+**PivotMe (26 bytes total)**
+
+| -    | Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 | Bytes 21-22 | Bytes 23-26 |
+| ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- | ---|---|
+| Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude | Pressure | Meter |
 
 ---
 
