@@ -8,7 +8,7 @@ Monitoring pivot irrigation systems for movement, water usage and pressure.
 - **Environment Sensor**: BME280 (I2C 0x76)
 - **GPS**: NEO-M8N
 - **Ultrasonic Water Meter**:
-- **Pressure Sender Sensor0-10 bar**: 
+- **Pressure Sender Sensor 0-10 bar**: 
 
 ## Binary Data Payload
 

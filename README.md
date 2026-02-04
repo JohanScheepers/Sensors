@@ -13,7 +13,7 @@ A comprehensive suite of IOT sensor nodes designed for agricultural and industri
 All nodes (except the Gateway) share a common base architecture:
 
 - **Environment**: Bosch BME280 (Temp, Humidity, Pressure)
-- **Messaging**: Standardized JSON over UART (115200 baud)
+- **Messaging**: UART (115200 baud)
 - **Power**: Optimized for battery and low-power mesh operation
 
 ## Sensor Catalog
@@ -68,7 +68,7 @@ Monitors water levels in large tanks (0-10m) using hydrostatic pressure sensing.
 
 ### [TempMe](./src/TempMe)
 
-The base environmental node and mesh repeater. Measures temperature, humidity, pressure, and altitude.
+The base environmental node and mesh repeater. Measures temperature, humidity and pressure.
 
 ### [TroughMe](./src/TroughMe)
 
@@ -169,7 +169,7 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 
 | Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7 |
 | ------ | -------- | -------- | -------- | ------- | ------ |
-| Type   | Air Temp | Humidity | Pressure | Battery |        |
+| Type   | Air Temp | Humidity | Pressure | Battery |   TBA     |
 
 **FridgeMe (7 bytes total)**
 
