@@ -117,16 +117,19 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Voltage/kV: `uint16_t` (kV \* 100)
 
 **TempMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure |
 
 **DamMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Water Distance|
 
 **FenceMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Fence Voltage|
@@ -138,46 +141,55 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
  Type | Air Temp | Humidity | Pressure | |
 
 **FridgeMe (6 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Fridge Temp|
 
 **GateMe (6 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Gate Status (1=Open)|
 
 **MoistureMe (17 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-13 | Byte 14-17 |
 |---|---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Soil Temp 1-4 | Moisture 1-4 |
 
 **RainMe (12 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-9 | Byte 10 | Byte 11 | Byte 12 |
 |---|---|---|---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Rainfall (uint32) | Wind Speed | Wind Gust | Wind Dir|
 
 **SwitchMe (6 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Switch Status (1=On)|
 
 **TankMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Tank Level (mm)|
 
 **TroughMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Water Level (mm)|
 
 **ValveMe (6 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 |
 |---|---|---|---|---|
 | Type | Air Temp | Humidity | Pressure | Valve Status (1=Open)|
 
 **SiloMe (7 bytes total)**
+
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6-7 |
 |---|---|---|---|---|
 | Type | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Dist m (uint16)|
