@@ -4,6 +4,9 @@ py.py
 /images
 \src\TempMe\pcb
 \ranger
+prd_ranger_sensors_and_app.md
+project_plan_and_roles.md
+ranger_tick_sheet.md
 .DS_Store
 .history
 .svn/

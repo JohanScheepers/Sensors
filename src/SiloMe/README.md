@@ -1,13 +1,13 @@
 # SiloMe
 
-A non-contact silo fill monitoring solution designed for silos (0-15m) using ultrasonic ranging.
+A non-contact silo fill monitoring solution designed for silos (0-40m) using ultrasonic ranging.
 
 ## Hardware Specifications
 - **MCU**: ARM
 - **Level Sensor**: HC-SR04 or similar Ultrasonic Sensor
 - **Trigger Pin**: GPIO 5
 - **Echo Pin**: GPIO 6
-- **Max Range**: 400 cm (4 meters)
+- **Max Range**: 40 meters
 
 ## Binary Data Payload
 
