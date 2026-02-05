@@ -9,8 +9,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
 #include <TinyGPS++.h>
 
 // --- Configuration ---
@@ -23,7 +21,6 @@
 #define FLOW_PIN 2
 
 // --- Hardware ---
-Adafruit_BME280 bme;
 TinyGPSPlus gps;
 
 // --- State ---
@@ -31,9 +28,6 @@ volatile uint32_t flowPulses = 0;
 
 // Packed struct for binary transmission (26 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
-  int8_t airTemp;
-  uint8_t airHum;
-  uint16_t airPres;
   uint8_t battery;
   int32_t lat;
   int32_t lon;
@@ -56,11 +50,6 @@ void setup() {
   UART_STREAM_PORT.begin(115200);
   GPS_SERIAL.begin(9600);
   Wire.begin();
-  if (!bme.begin(0x76)) {
-      // Basic fallback
-  }
-  bme.setSampling(Adafruit_BME280::MODE_NORMAL, Adafruit_BME280::SAMPLING_X2, Adafruit_BME280::SAMPLING_X16, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_X16, Adafruit_BME280::STANDBY_MS_500);
-  
   pinMode(PRESSURE_PIN, INPUT);
   pinMode(FLOW_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(FLOW_PIN), onFlowPulse, FALLING);
@@ -85,9 +74,6 @@ void readGPS() {
 }
 
 void readSensors() {
-  currentPacket.airTemp = (int8_t)bme.readTemperature();
-  currentPacket.airHum = (uint8_t)bme.readHumidity();
-  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
   currentPacket.battery = 4; // Placeholder
   
   readGPS();

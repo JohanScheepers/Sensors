@@ -4,7 +4,6 @@ A non-contact silo fill monitoring solution designed for silos (0-15m) using ult
 
 ## Hardware Specifications
 - **MCU**: ARM
-- **Environment Sensor**: BME280 (I2C 0x76)
 - **Level Sensor**: HC-SR04 or similar Ultrasonic Sensor
 - **Trigger Pin**: GPIO 5
 - **Echo Pin**: GPIO 6
@@ -16,14 +15,12 @@ A non-contact silo fill monitoring solution designed for silos (0-15m) using ult
 
 **8 bytes total**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
-|---|---|---|---|---|---|
-| Type (12) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Dist m (uint16) |
+| Byte 1  | Byte 2 | Byte 3-4 |
+|---|---|---|
+| Type (12) | Battery (uint8) | Dist m (uint16) |
 
 ## Features
 - **Non-Contact Sensing**: High reliability in varying silo levels.
-- **Air Density Compensation**: Uses BME280 temperature data to calibrate the speed of sound for higher accuracy.
-- **Dual Monitoring**: Tracks both water distance and ambient environmental metrics.
 - **Rugged Design**: Optimized for outdoor deployment near open water bodies.
 
 

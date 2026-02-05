@@ -9,8 +9,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
 
 // --- Configuration ---
 #define NODE_ID "SIL01"
@@ -20,16 +18,11 @@
 #define TRIG_PIN 5
 #define ECHO_PIN 6
 
-// --- Hardware ---
-Adafruit_BME280 bme;
 
 // --- State ---
 
 // Packed struct for binary transmission (7 bytes data + 1 byte type sent separately)
 struct __attribute__((packed)) SensorPacket {
-  int8_t airTemp;
-  uint8_t airHum;
-  uint16_t airPres;
   uint8_t battery;
   uint16_t level; // mm
 };
@@ -39,10 +32,6 @@ SensorPacket currentPacket;
 void setup() {
   UART_STREAM_PORT.begin(115200);
   Wire.begin();
-  if (!bme.begin(0x76)) {
-      // Basic fallback
-  }
-  bme.setSampling(Adafruit_BME280::MODE_NORMAL, Adafruit_BME280::SAMPLING_X2, Adafruit_BME280::SAMPLING_X16, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::FILTER_X16, Adafruit_BME280::STANDBY_MS_500);
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
 }
@@ -58,9 +47,6 @@ uint16_t getDistanceMM() {
 }
 
 void readSensors() {
-  currentPacket.airTemp = (int8_t)bme.readTemperature();
-  currentPacket.airHum = (uint8_t)bme.readHumidity();
-  currentPacket.airPres = (uint16_t)(bme.readPressure() / 100.0F);
   currentPacket.battery = 4; // Placeholder
   currentPacket.level = getDistanceMM();
 }

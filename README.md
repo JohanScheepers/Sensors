@@ -4,7 +4,7 @@
 
 # IOT Sensor Network
 
-A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed UART JSON protocol.
+A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **Semteck LR** range architecture with support for **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed protocol.
 
 <img src="./assets/box.webp" width="500"/>
 
@@ -12,9 +12,11 @@ A comprehensive suite of IOT sensor nodes designed for agricultural and industri
 
 All nodes (except the Gateway) share a common base architecture:
 
-- **Environment**: Bosch BME280 (Temp, Humidity, Pressure)
+- **Mesh**: Semteck LR range
+- **MCU**: Arm® Cortex®‑M0+ (STM32L0 series)  (Not equipped as standard)
+- **Environment**: Bosch BME280 (Temp, Humidity, Pressure) (Not equipped as standard)
 - **Messaging**: UART (115200 baud)
-- **Power**: Optimized for battery and low-power mesh operation
+- **Power**: Utilizes a TPS63051 (Starting point) to regulate 3.3V and 2 AA batteries for low-power mesh operation.
 
 ## Sensor Catalog
 
@@ -37,6 +39,10 @@ Dual-zone monitoring for cold storage, featuring an external temperature probe.
 ### [GateMe](./src/GateMe)
 
 Real-time security and operational status for gates and doors.
+
+### [RepeatMe](./src/RepeatMe)
+
+It only repeats the signal from other sensors to the rest of the mesh network and the gateway. 
 
 ### [GatewayMe](./GatewayMe)
 
@@ -154,23 +160,27 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - CO2: `uint16_t` (ppm)
 - VOC: `uint16_t` (ppm)
 
+**RepeaterMe**
+
+It only repeats the signal from other sensors to the rest of the mesh network and the gateway.
+
 **TempMe (6 bytes total)**
 
 | Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  |
 | ------ | -------- | -------- | -------- | ------- |
 | Type   | Air Temp | Humidity | Pressure | Battery |
 
-**DamMe (8 bytes total)**
+**DamMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8       |
-| ------ | -------- | -------- | -------- | ------- | -------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Water Distance |
+| Byte 1  | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Water Distance |
 
-**FenceMe (8 bytes total)**
+**FenceMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8      |
-| ------ | -------- | -------- | -------- | ------- | ------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Fence Voltage |
+| Byte 1  | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Fence Voltage |
 
 **ForestRanger (7 bytes total)**
 
@@ -184,11 +194,11 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | ------ | -------- | -------- | -------- | ------- | ----------- |
 | Type   | Air Temp | Humidity | Pressure | Battery | Fridge Temp |
 
-**GateMe (7 bytes total)**
+**GateMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7               |
-| ------ | -------- | -------- | -------- | ------- | -------------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Gate Status |
+| Byte 1 | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Gate Status |
 
 **MoistureMe (14 bytes total)**
 
@@ -202,35 +212,35 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | ------ | -------- | -------- | -------- | ------- | ----------------- | ---------- | --------- | -------- |
 | Type   | Air Temp | Humidity | Pressure | Battery | Rainfall | Wind Speed | Wind Gust | Wind Dir |
 
-**SwitchMe (7 bytes total)**
+**SwitchMe (3 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7               |
-| ------ | -------- | -------- | -------- | ------- | -------------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Switch Status (1=On) |
+| Byte 1  | Byte 2  | Byte 3     |
+| ------ | ------- | ---------- |
+| Type   | Battery | Switch Status (1=On) |
 
-**TankMe (8 bytes total)**
+**TankMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8        |
-| ------ | -------- | -------- | -------- | ------- | --------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Tank Level (mm) |
+| Byte 1  | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Tank Level (mm) |
 
-**TroughMe (8 bytes total)**
+**TroughMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7-8         |
-| ------ | -------- | -------- | -------- | ------- | ---------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Water Level (mm) |
+| Byte 1  | Byte 2  | Byte 3-4         |
+| ------ | ------- | ---------------- |
+| Type   | Battery | Water Level (mm) |
 
-**ValveMe (7 bytes total)**
+**ValveMe (4 bytes total)**
 
-| Byte 1 | Byte 2   | Byte 3   | Byte 4-5 | Byte 6  | Byte 7                |
-| ------ | -------- | -------- | -------- | ------- | --------------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Valve Status (1=Open) |
+| Byte 1  | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Valve Status (1=Open) |
 
-**SiloMe (8 bytes total)**
+**SiloMe (4 bytes total)**
 
-| Byte 1 | Byte 2          | Byte 3           | Byte 4-5          | Byte 6  | Byte 7-8        |
-| ------ | --------------- | ---------------- | ----------------- | ------- | --------------- |
-| Type   | Air Temp | Humidity | Pressure | Battery | Dist m |
+| Byte 1  | Byte 2  | Byte 3-4       |
+| ------ | ------- | -------------- |
+| Type   | Battery | Dist m |
 
 **TrackMe (20 bytes total)**
 
@@ -240,9 +250,9 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 
 **PivotMe (26 bytes total)**
 
-| Byte 1   | Byte 2   | Byte 3   | Byte 4-5 | Byte 6 | Bytes 7-10 | Bytes 11-14 | Bytes 15-16 | Bytes 17 | Bytes 18 | Bytes 19-20 | Bytes 21-22 | Bytes 23-26 |
-| ---- | -------- | -------- | -------- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- | ---|---|
-| Type | Air Temp | Humidity | Pressure | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude | Pressure | Meter |
+| Byte 1    | Byte 2 | Bytes 3-6 | Bytes 7-10 | Bytes 11-12 | Bytes 13 | Bytes 14 | Bytes 15-16 | Bytes 17-18 | Bytes 19-22 |
+| ---- | -------- | ------ | ---------- | ----------- | ----------- | -------- | -------- | ----------- | ---|---|
+| Type  | Battery  | Lat    | Lon        | Course      |  Speed       | hdop     | sat | Altitude | Pressure | Meter |
 
 **CO2Me (10 bytes total)**
 

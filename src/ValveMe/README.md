@@ -7,7 +7,6 @@ ValveMe controls a high-current 12VDC solenoid valve using an integrated relay. 
 
 ## Hardware Specifications
 - **MCU**: ARM
-- **Environment Sensor**: BME280 (I2C 0x76)
 - **Control Interface**: Relay Driver
 - **Pin Mapping**: GPIO 10 (Relay), GPIO 11 (Status LED)
 - **Operating Voltage**: 12VDC (External supply required for valve)
@@ -18,14 +17,13 @@ ValveMe controls a high-current 12VDC solenoid valve using an integrated relay. 
 
 **7 bytes total**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7 |
-|---|---|---|---|---|---|
-| Type (11) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Valve Status (uint8) |
+| Byte 1 | Byte 2 | Byte 3 |
+|---|---|---|---|
+| Type (11) | Battery (uint8) | Valve Status (uint8) |
 
 ## Features
 - **Active Power Tracking**: Monitors open duration to prevent overflow and estimate liquid volume.
 - **Manual Override Support**: Responds to serial "OPEN" and "CLOSE" commands for manual control.
-- **Environment Interlock**: Telemetry allows for logic and safety checks (e.g., disable valve if temp < 2°C to prevent freezing).
 - **Status Indication**: Local LED visualizes valve state.
 
 ## License

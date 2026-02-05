@@ -7,7 +7,6 @@ TankMe measures the hydrostatic pressure of the water column to calculate the pr
 
 ## Hardware Specifications
 - **MCU**: ARM
-- **Environment Sensor**: BME280 (I2C 0x76)
 - **Level Sensor**: Analog Pressure Transducer (0-100 kPa)
 - **Interface**: Pin **A0** (Analog Input)
 - **VCC Supply**: 5.0V
@@ -18,15 +17,14 @@ TankMe measures the hydrostatic pressure of the water column to calculate the pr
 
 **8 bytes total**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
-|---|---|---|---|---|---|
-| Type (9) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Tank Level mm (uint16) |
+| Byte 1 | Byte 2 | Byte 3-4 | Byte 5-6 | Byte 7-8 |
+|---|---|---|---|---|
+| Type (9) | Battery (uint8) | Tank Level mm (uint16) |
 
 ## Features
 - **Hydrostatic Precision**: Highly accurate level measurement based on liquid pressure.
 - **Large Capacity**: Supports tanks and reservoirs up to 10 meters deep.
 - **Stainless Steel Probe**: Corrosion-resistant pressure sensor housing for long-term submersion.
-- **Integrated Environment Metrics**: Tracks air temperature and humidity at the tank site.
 
 ## License
 

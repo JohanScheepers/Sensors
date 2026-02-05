@@ -7,7 +7,6 @@ FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It p
 
 ## Hardware Specifications
 - **MCU**: ARM
-- **Environment Sensor**: BME280 (I2C 0x76)
 - **HV Sensor**: Voltage Divider + Optocoupler isolation circuit
 - **Interface**: Analog Pin **A2**, GPIO 12 (Alert LED)
 - **Max Input**: 12 kV (Scalable)
@@ -16,17 +15,16 @@ FenceMe measurements high-voltage pulses on an electric fence (up to 12kV). It p
 
 **Sensor Type ID:** 2
 
-**8 bytes total**
+**4 bytes total**
 
-| Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 |
-|---|---|---|---|---|---|
-| Type (2) | Air Temp (int8) | Humidity (uint8) | Pressure (uint16) | Battery (uint8) | Voltage kV*100 (uint16)|
+| Byte 1 | Byte 2 | Byte 3-4 |
+|---|---|---|
+| Type (2) | Battery (uint8) | Voltage kV*100 (uint16)|
 
 ## Features
 - **High Voltage Isolation**: Designed with optoisolation to protect the MCU from kV surges.
 - **Continuous Monitoring**: Tracks peak pulse voltage.
-- **Visual & Remote Alerts**: Local alert LED and JSON push upon low-voltage detection (<3kV default).
-- **Historical Analysis**: Correlation of fence voltage with environmental moisture (humidity/rain).
+- **Visual & Remote Alerts**: Local alert LED and UART push upon low-voltage detection (<3kV default).
 
 > [!CAUTION]
 > Electric fences carry high voltages. Ensure all connections follow strict safety guidelines and proper hardware isolation is used.
