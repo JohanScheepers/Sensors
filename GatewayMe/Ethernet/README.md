@@ -44,6 +44,7 @@ The module connects directly to the Gateway Controller's UART pins, simplifying 
 *Note: Config pins (CFG) can be pulled low to enter configuration mode if web configuration is unavailable.*
 
 ## Work Modes
-1.  **TCP Client (Default)**: Gateway connects to a central cloud server IP. Data sent to UART is forwarded to the server; server responses appear on UART.
-2.  **UDP Mode**: Fire-and-forget packets for low-latency telemetry.
-3.  **HTTPD Client**: Encapsulates data into HTTP POST/GET requests (useful for REST APIs).
+1.  **MQTT Client (Default)**: Gateway connects to a central MQTT broker. Data sent to UART is published to specific topics; commands from the broker appear on UART for the mesh network.
+2.  **TCP Client**: Transparent tunnel for generic data transfer.
+3.  **UDP Mode**: Fire-and-forget packets for low-latency telemetry.
+
