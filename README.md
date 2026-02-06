@@ -4,7 +4,7 @@
 
 # IOT Sensor Network
 
-A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **Semteck LR** range architecture with support for **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a meshed protocol.
+A comprehensive suite of IOT sensor nodes designed for agricultural and industrial monitoring. Built on the **Semteck LR** range architecture with support for **ARM (STM32)** architecture and utilizing **BME280** sensors as base, these nodes communicate via a mesh protocol.
 
 <img src="./assets/box.webp" width="500"/>
 

@@ -1,13 +1,14 @@
 # Root / General
 firebase-debug.log
 py.py
-/images
+\images
 \src\TempMe\pcb
 \ranger
 \pcb
 prd_ranger_sensors_and_app.md
 project_plan_and_roles.md
 ranger_tick_sheet.md
+glossary.md
 .DS_Store
 .history
 .svn/

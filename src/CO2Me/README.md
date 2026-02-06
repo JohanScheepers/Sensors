@@ -1,6 +1,6 @@
 # CO2Me - Carbon Dioxide & VOC Monitor
 
-Monitoring CO2 levels and Volatile Organic Compounds (VOC) in greenhouses, warehouses, and industrial environments.
+Monitoring CO2 levels and Volatile Organic Compounds (VOC) in greenhouses, warehouses, potato sheds and industrial environments.
 
 ## Overview
 CO2Me is designed to ensure optimal air quality for plant growth in greenhouses or safety in enclosed workspaces. It measures CO2 concentrations and total VOCs alongside standard environmental metrics (temperature, humidity, pressure).
