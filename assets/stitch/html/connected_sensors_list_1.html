@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connected Sensors List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152111",
+                        "surface-dark": "#1d2b18",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-white font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden max-w-[430px] mx-auto shadow-2xl">
+<!-- TopAppBar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between">
+<div class="text-black dark:text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Ranger Sensors</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-black dark:text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-2xl">account_circle</span>
+</button>
+</div>
+</div>
+<!-- SearchBar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-none">
+<div class="text-gray-500 dark:text-[#a4b89d] flex items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-gray-400 dark:placeholder:text-[#a4b89d] px-4 rounded-l-none pl-2 text-base font-normal" placeholder="Search sensors" value=""/>
+</div>
+</label>
+</div>
+<!-- Section: Security -->
+<div class="mt-2">
+<h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Security</h3>
+<!-- ListItem: GateMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
+<span class="material-symbols-outlined">shield_with_heart</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">GateMe - Main Entrance</p>
+<p class="text-primary text-sm font-normal leading-normal line-clamp-2">Online</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-black dark:text-white text-base font-semibold leading-normal">Closed</p>
+</div>
+</div>
+<!-- ListItem: FenceMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">FenceMe - Perimeter North</p>
+<p class="text-primary text-sm font-normal leading-normal line-clamp-2">Online</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-black dark:text-white text-base font-semibold leading-normal">9.2 kV</p>
+</div>
+</div>
+</div>
+<!-- Section: Water -->
+<div class="mt-4">
+<h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Water</h3>
+<!-- ListItem: TankMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-blue-500 flex items-center justify-center rounded-lg bg-blue-500/10 shrink-0 size-12">
+<span class="material-symbols-outlined">opacity</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">TankMe - Reservoir B</p>
+<p class="text-primary text-sm font-normal leading-normal line-clamp-2">Online</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-black dark:text-white text-base font-semibold leading-normal">84%</p>
+</div>
+</div>
+<!-- ListItem: FlowMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-blue-500 flex items-center justify-center rounded-lg bg-blue-500/10 shrink-0 size-12">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">FlowMe - Irrigation Pump</p>
+<p class="text-gray-400 text-sm font-normal leading-normal line-clamp-2">Offline (2h ago)</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-gray-400 dark:text-gray-500 text-base font-semibold leading-normal">0 L/m</p>
+</div>
+</div>
+</div>
+<!-- Section: Environment -->
+<div class="mt-4 mb-10">
+<h3 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Environment</h3>
+<!-- ListItem: FieldMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-orange-400 flex items-center justify-center rounded-lg bg-orange-400/10 shrink-0 size-12">
+<span class="material-symbols-outlined">thermostat</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">FieldMe - Orchard</p>
+<p class="text-primary text-sm font-normal leading-normal line-clamp-2">Online</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-black dark:text-white text-base font-semibold leading-normal">24.5°C</p>
+</div>
+</div>
+<!-- ListItem: SoilMe -->
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-2 justify-between border-b border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-4">
+<div class="text-amber-700 flex items-center justify-center rounded-lg bg-amber-700/10 shrink-0 size-12">
+<span class="material-symbols-outlined">grass</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">SoilMe - South Pasture</p>
+<p class="text-primary text-sm font-normal leading-normal line-clamp-2">Online</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-black dark:text-white text-base font-semibold leading-normal">32% Moist</p>
+</div>
+</div>
+</div>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6 lg:absolute">
+<button class="bg-primary text-background-dark size-14 rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined font-bold">add</span>
+</button>
+</div>
+</div>
+</body></html>

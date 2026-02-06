@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ranger App Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F59E0B", // Amber/Orange to match the compass needle
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#1A1C1E", // Deep charcoal/dark slate
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+        .logo-glow {
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display overflow-hidden flex items-center justify-center h-screen">
+<div class="flex flex-col items-center justify-center w-full max-w-sm px-6">
+<div class="relative w-48 h-48 mb-8 animate-fade-in logo-glow">
+<img alt="Ranger App Logo: Glassy shield with orange compass needle" class="w-full h-full object-contain rounded-[40px] shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlFAVpYuB1CQal9IfgFnCQ1ITkRD0h5bmW7V4JSsR3zZphkJB9EsoZGnBGTYE8jhgTaMG1B4EZwIWApGZGL2jpGKi0I9Pb5YJ3DLChFmz-weEdrixwz-RzspNuuK9Xp6ElZKchsSuIx_2jOapzKx66ljN7_7Ct1qf-lxAy7VgvCVPOSN6Jhadhj5SPHE-BUhH5BNmEJ8zgaiR-10gs9fVt4MR5xjkR0vzZBmYjUmZ8kdQredJYklkPn8wfx5Fv8SgByeKDq16qpuE"/>
+<div class="absolute inset-0 bg-primary opacity-5 blur-[60px] -z-10"></div>
+</div>
+<div class="text-center animate-fade-in" style="animation-delay: 0.3s;">
+<h1 class="text-4xl font-light tracking-[0.25em] text-slate-900 dark:text-slate-100 uppercase">
+                Ranger
+            </h1>
+<p class="mt-3 text-sm tracking-widest text-slate-500 dark:text-slate-400 uppercase font-medium">
+                Smart Farm Management
+            </p>
+</div>
+<div class="absolute bottom-16 w-full flex flex-col items-center animate-fade-in" style="animation-delay: 0.8s;">
+<div class="w-12 h-0.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden relative">
+<div class="absolute inset-y-0 left-0 bg-primary w-1/2 rounded-full"></div>
+</div>
+<span class="mt-4 text-[10px] text-slate-400 dark:text-slate-500 tracking-widest uppercase">
+                IoT Connection Secure
+            </span>
+</div>
+</div>
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 dark:opacity-30">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary opacity-5 blur-[100px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500 opacity-5 blur-[100px] rounded-full"></div>
+</div>
+
+</body></html>

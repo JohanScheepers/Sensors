@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Verification Sent - Ranger App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F59E0B", // Bright orange
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "brand-teal": "#134E4A", // Dark teal for the logo background matching the screenshot
+                    },
+                    fontFamily: {
+                        display: ["Inter", "system-ui", "sans-serif"],
+                        body: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .button-shadow {
+            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3), 0 4px 6px -2px rgba(245, 158, 11, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-white dark:bg-background-dark min-h-screen flex flex-col items-center">
+<header class="w-full flex justify-end p-6">
+<button aria-label="Toggle Dark Mode" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons-round block dark:hidden text-slate-800">dark_mode</span>
+<span class="material-icons-round hidden dark:block text-primary text-xl">light_mode</span>
+</button>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center px-8 text-center max-w-md w-full -mt-12">
+<div class="relative mb-12">
+<div class="w-36 h-36 bg-[#116d6e] rounded-[2.5rem] flex items-center justify-center shadow-xl overflow-hidden">
+<img alt="Ranger App Logo" class="w-24 h-24 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAE4rwKHSDbMT2OCZrNe3N01p31zaugNkZnk6qyQy95N7r7y2Uh2jfBixb0AMQpQtSDvFoNqUyG4EeVXnS6aY9i1ACLm9b2uPoCxmJySfn484wNnWbC1IR-eA9sC6VbkF8DUMZMMSwIw8izAqQdxSyvKN96SlcQHKPBPFmrB6G24noOzWKHqJshG22TALIxiXXhnze2rtY0lhWRofIDFKWREst1FkyRhLhScFjoQ8Oc9HdaDgGK362J5jrxQyu5qjV0Lg4qfmzXhTE"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-white dark:bg-slate-900 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl">
+<div class="bg-white dark:bg-slate-800 w-full h-full rounded-full flex items-center justify-center shadow-sm">
+<span class="material-icons-round text-primary text-3xl">mail</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h1 class="text-[2.25rem] font-bold text-slate-900 dark:text-white tracking-tight">
+                Check your inbox
+            </h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed px-2">
+                We've sent a password reset link to your email address. Please follow the instructions to secure your farm data.
+            </p>
+</div>
+<div class="mt-12 w-full space-y-6">
+<button class="w-full bg-primary hover:bg-orange-500 text-white font-bold py-5 px-6 rounded-3xl transition-all active:scale-[0.98] button-shadow flex items-center justify-center gap-2 text-lg">
+<span>Open Email App</span>
+<span class="material-icons-round text-xl">open_in_new</span>
+</button>
+<button class="w-full bg-transparent text-slate-600 dark:text-slate-400 font-semibold py-3 px-6 rounded-xl transition-all text-lg active:opacity-60">
+                I'll do it later
+            </button>
+</div>
+</main>
+<footer class="p-8 pb-12 text-center w-full">
+<p class="text-slate-400 dark:text-slate-500 text-[15px]">
+            Didn't receive the email? 
+            <button class="text-primary font-bold hover:underline decoration-2 underline-offset-4">
+                Click to resend
+            </button>
+</p>
+<div class="mt-8">
+<div class="h-1.5 w-32 bg-slate-200 dark:bg-slate-800 rounded-full mx-auto"></div>
+</div>
+</footer>
+
+</body></html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ranger App Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152111",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 border-b border-gray-200 dark:border-gray-800 justify-between">
+<div class="text-primary flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1">Ranger Farm</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-primary/20 text-primary gap-2 text-base font-bold leading-normal">
+<span class="material-symbols-outlined text-2xl">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex flex-col gap-2 pb-10">
+<!-- SectionHeader -->
+<section>
+<h3 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-tight px-4 pb-2 pt-6">Sensor Overview</h3>
+</section>
+<!-- Stats - High Contrast Full Width Stack -->
+<section class="flex flex-col gap-4 px-4">
+<!-- Water Level -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#2c3829] border border-gray-200 dark:border-gray-800 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-gray-600 dark:text-gray-300 text-lg font-medium">Water Level</p>
+<span class="material-symbols-outlined text-primary text-3xl">water_drop</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-gray-900 dark:text-white tracking-tight text-5xl font-bold leading-tight">85%</p>
+<p class="text-primary text-lg font-bold">+5% <span class="text-sm font-normal">vs yesterday</span></p>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+</div>
+<!-- Fence Voltage -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#2c3829] border border-gray-200 dark:border-gray-800 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-gray-600 dark:text-gray-300 text-lg font-medium">Fence Voltage</p>
+<span class="material-symbols-outlined text-yellow-500 text-3xl">bolt</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-gray-900 dark:text-white tracking-tight text-5xl font-bold leading-tight">9.2 <span class="text-2xl font-medium">kV</span></p>
+<p class="text-red-500 text-lg font-bold">-0.2kV</p>
+</div>
+<div class="flex items-center gap-2 text-yellow-500 font-medium">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="text-sm">Minor drop in North Perimeter</span>
+</div>
+</div>
+<!-- Fire Status -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#2c3829] border border-gray-200 dark:border-gray-800 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-gray-600 dark:text-gray-300 text-lg font-medium">Fire Status</p>
+<span class="material-symbols-outlined text-primary text-3xl">health_and_safety</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-gray-900 dark:text-white tracking-tight text-5xl font-bold leading-tight">Normal</p>
+<p class="text-primary text-lg font-bold">Safe</p>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm italic">All 12 smoke detectors active</p>
+</div>
+</section>
+<!-- SectionHeader -->
+<section>
+<div class="flex items-center justify-between px-4 pb-2 pt-8">
+<h3 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Active Alerts</h3>
+<button class="text-primary text-sm font-bold uppercase tracking-widest">Clear All</button>
+</div>
+</section>
+<!-- Active Alerts List -->
+<section class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
+<!-- ListItem 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-background-dark px-4 min-h-[88px] py-4 justify-between transition-colors">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-14 border border-primary/20">
+<span class="material-symbols-outlined text-2xl">door_open</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-bold leading-tight">Gate 4 Open</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-tight mt-1">North Pasture gate is currently open.</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase">10m ago</p>
+</div>
+</div>
+<!-- ListItem 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-background-dark px-4 min-h-[88px] py-4 justify-between transition-colors">
+<div class="flex items-center gap-4">
+<div class="text-red-500 flex items-center justify-center rounded-xl bg-red-500/10 shrink-0 size-14 border border-red-500/20">
+<span class="material-symbols-outlined text-2xl">battery_alert</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-bold leading-tight">Low Battery</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-tight mt-1">Sensor #402 (Soil) at 12% power.</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase">45m ago</p>
+</div>
+</div>
+<!-- ListItem 3 -->
+<div class="flex items-center gap-4 bg-white dark:bg-background-dark px-4 min-h-[88px] py-4 justify-between transition-colors">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-xl bg-primary/10 shrink-0 size-14 border border-primary/20">
+<span class="material-symbols-outlined text-2xl">water_damage</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-bold leading-tight">Pump Activated</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-tight mt-1">Sector 3 irrigation cycle started.</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase">1h ago</p>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation Spacing -->
+<div class="h-20"></div>
+</main>
+<!-- Fixed Bottom Nav (Mobile Style) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1a2b15] border-t border-gray-200 dark:border-gray-800 flex justify-around items-center h-16 px-4 z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Dash</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] font-bold uppercase">Map</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-[10px] font-bold uppercase">Alerts</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Settings</span>
+</button>
+</nav>
+</div>
+</body></html>

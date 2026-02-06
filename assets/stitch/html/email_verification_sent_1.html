@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Verification Sent - Ranger App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F59E0B", // Bright orange from the compass needle
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#1A1F26", // Deep dark shade matching the logo's atmosphere
+                    },
+                    fontFamily: {
+                        display: ["Inter", "system-ui", "sans-serif"],
+                        body: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col transition-colors duration-300">
+<div class="h-12 w-full"></div>
+<main class="flex-1 flex flex-col items-center justify-center px-8 text-center">
+<div class="relative mb-12 animate-fade-in">
+<div class="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-75"></div>
+<img alt="Ranger App Logo" class="w-32 h-32 md:w-40 md:h-40 relative rounded-[2rem] shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAE4rwKHSDbMT2OCZrNe3N01p31zaugNkZnk6qyQy95N7r7y2Uh2jfBixb0AMQpQtSDvFoNqUyG4EeVXnS6aY9i1ACLm9b2uPoCxmJySfn484wNnWbC1IR-eA9sC6VbkF8DUMZMMSwIw8izAqQdxSyvKN96SlcQHKPBPFmrB6G24noOzWKHqJshG22TALIxiXXhnze2rtY0lhWRofIDFKWREst1FkyRhLhScFjoQ8Oc9HdaDgGK362J5jrxQyu5qjV0Lg4qfmzXhTE"/>
+<div class="absolute -bottom-2 -right-2 bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg border-4 border-background-light dark:border-background-dark">
+<span class="material-icons-round text-primary text-2xl">mail</span>
+</div>
+</div>
+<div class="space-y-4 max-w-sm">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                Check your inbox
+            </h1>
+<p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+                We've sent a password reset link to your email address. Please follow the instructions to secure your farm data.
+            </p>
+</div>
+<div class="mt-12 w-full max-w-sm space-y-4">
+<button class="w-full bg-primary hover:bg-orange-600 text-white font-semibold py-4 px-6 rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span>Open Email App</span>
+<span class="material-icons-round text-lg">open_in_new</span>
+</button>
+<button class="w-full bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium py-3 px-6 rounded-xl transition-all">
+                I'll do it later
+            </button>
+</div>
+</main>
+<footer class="p-8 text-center">
+<p class="text-slate-400 dark:text-slate-500 text-sm">
+            Didn't receive the email? 
+            <button class="text-primary font-semibold hover:underline decoration-2 underline-offset-4">
+                Click to resend
+            </button>
+</p>
+</footer>
+<div class="h-2 w-32 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-2 mt-4"></div>
+<button aria-label="Toggle Dark Mode" class="fixed top-12 right-6 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 dark:bg-slate-800/50 dark:border-slate-700 shadow-sm" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons-round block dark:hidden text-slate-600">dark_mode</span>
+<span class="material-icons-round hidden dark:block text-primary">light_mode</span>
+</button>
+<style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.6s ease-out forwards;
+        }
+    </style>
+
+</body></html>

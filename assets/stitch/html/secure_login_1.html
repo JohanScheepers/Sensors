@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ranger App - Secure Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10B981", // Bold Ranger Green
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                        accent: "#F97316", // Compass Orange
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .ios-toggle:checked + .ios-toggle-dot {
+            transform: translateX(100%);
+            background-color: white;
+        }
+        .ios-toggle:checked {
+            background-color: #10B981;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-[400px] aspect-[9/19.5] flex flex-col relative overflow-hidden bg-background-light dark:bg-[#080C14] shadow-2xl rounded-[3rem] border-[8px] border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center px-8 pt-4 pb-2">
+<span class="text-xs font-semibold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-sm">battery_full</span>
+</div>
+</div>
+<div class="absolute inset-0 z-0 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-64 h-64 bg-primary/20 rounded-full blur-[80px]"></div>
+<div class="absolute bottom-[-5%] left-[-10%] w-64 h-64 bg-accent/10 rounded-full blur-[80px]"></div>
+</div>
+<div class="relative z-10 flex-1 flex flex-col px-8 pt-8 pb-10 overflow-y-auto">
+<div class="flex flex-col items-center mb-12">
+<div class="w-24 h-24 mb-4 drop-shadow-2xl">
+<img alt="Ranger App Icon" class="w-full h-full object-contain rounded-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzfc4AxNuS0dUxdNQIhFR7svH9QY5Jc1-jae0Q29Q9gvBV2sAPCn6kiUurq-UcZcdzbddHmLis-DBnMLa2_CKVguW31TaIjffLUCzqstGeheYiz8nqGj54Uoe5hNF3nRb4lEdzAI97DcH627MduHxdI3vNsNnIbChdFfbAh4Sxz_PiqJr6dqNrTz2wYmVcHsXh8dtsdCYRJbOsjHdN9BXWzrcyjF4ZXm2eXqrAw5evVKI1A-UzJCnKC94xp9dlOpXL_xLnSzt9vOk"/>
+</div>
+<h1 class="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Ranger</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Smart Farm Management</p>
+</div>
+<div class="mb-8">
+<h2 class="text-xl font-semibold">Welcome Back</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Securely log in to monitor your sensors</p>
+</div>
+<form class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-xs font-medium uppercase tracking-wider text-slate-400 ml-1">Email Address</label>
+<div class="relative">
+<span class="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">alternate_email</span>
+<input class="w-full pl-12 pr-4 py-4 glass-card rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="farmer@ranger.io" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-xs font-medium uppercase tracking-wider text-slate-400 ml-1">Password</label>
+<div class="relative">
+<span class="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock_open</span>
+<input class="w-full pl-12 pr-12 py-4 glass-card rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="••••••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary" type="button">
+<span class="material-icons-round text-xl">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between py-2">
+<label class="flex items-center cursor-pointer group">
+<div class="relative">
+<input checked="" class="sr-only ios-toggle" type="checkbox"/>
+<div class="block bg-slate-200 dark:bg-slate-700 w-10 h-6 rounded-full transition-colors"></div>
+<div class="ios-toggle-dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow-sm"></div>
+</div>
+<span class="ml-3 text-sm font-medium text-slate-600 dark:text-slate-300">Remember Me</span>
+</label>
+<a class="text-sm font-semibold text-primary hover:underline underline-offset-4 transition-all" href="#">Forgot Password?</a>
+</div>
+<button class="w-full bg-primary hover:bg-emerald-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2" type="submit">
+<span>Secure Login</span>
+<span class="material-icons-round">arrow_forward</span>
+</button>
+</form>
+<div class="mt-auto pt-8 text-center">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+                    Don't have an account? 
+                    <a class="text-primary font-bold ml-1 hover:underline" href="#">Sign Up</a>
+</p>
+</div>
+<div class="w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mt-8 mb-[-24px]"></div>
+</div>
+</div>
+<button class="fixed bottom-6 right-6 w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center transition-all active:scale-90" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons-round text-slate-800 dark:text-yellow-400 dark:hidden">dark_mode</span>
+<span class="material-icons-round text-slate-800 dark:text-yellow-400 hidden dark:block">light_mode</span>
+</button>
+
+</body></html>
