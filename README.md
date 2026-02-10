@@ -100,6 +100,10 @@ Monitoring pivot irrigation systems for movement, water usage and pressure.
 
 Monitoring CO2 levels in greenhouses and warehouses.
 
+*** [SolarMe](./scr/SolarME)**
+
+Monitoring of MPPT solar chargers
+
 ---
 
 ## Sensor Data Encoding
@@ -126,6 +130,7 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | TrackMe     | 13           |
 | PivotMe     | 14           |
 | CO2Me       | 15           |
+| SolarMe     | 16           |
 
 ---
 
@@ -259,6 +264,12 @@ It only repeats the signal from other sensors to the rest of the mesh network an
 | Byte 1 | Byte 2 | Byte 3 | Byte 4-5 | Byte 6 | Byte 7-8 | Byte 9-10 |
 | ------ | -------- | -------- | -------- | ------- | -------- | --------- |
 | Type | Air Temp | Humidity | Pressure | Battery | CO2 | VOC |
+
+**SolarMe (xx bytes total)**
+
+| Byte 1 | Byte xx |
+| ------ | -------- |
+| Type | xx | 
 
 ---
 
