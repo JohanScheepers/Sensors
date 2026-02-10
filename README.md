@@ -100,7 +100,7 @@ Monitoring pivot irrigation systems for movement, water usage and pressure.
 
 Monitoring CO2 levels in greenhouses and warehouses.
 
-*** [SolarMe](./scr/SolarME)**
+*** [SolarMe](./src/SolarME)**
 
 Monitoring of MPPT solar chargers
 
@@ -164,6 +164,16 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Meter: `uint32_t` (m<sup>3</sup>)
 - CO2: `uint16_t` (ppm)
 - VOC: `uint16_t` (ppm)
+- AUX Voltage: `uint16_t` (V)
+- Battery Voltage: `uint16_t` (V)
+- State of Charge in %: `uint8_t` (%)
+- Battery time remaining: `uint16_t` (h)
+- Consumed Ah: `uint32_t` (Ah)
+- Battery Current: `int16_t` (A)
+- Yield Today: `uint32_t` (kWh)
+- PV Power: `uint16_t` (W)
+- Device State: `uint8_t` (0=Off, 1=Bulk, 2=Absorption, 3=Float)
+- Load output: `uint8_t` (1=On, 0=Off)
 
 **RepeaterMe**
 
@@ -265,11 +275,11 @@ It only repeats the signal from other sensors to the rest of the mesh network an
 | ------ | -------- | -------- | -------- | ------- | -------- | --------- |
 | Type | Air Temp | Humidity | Pressure | Battery | CO2 | VOC |
 
-**SolarMe (xx bytes total)**
+**SolarMe (22 bytes total)**
 
-| Byte 1 | Byte xx |
-| ------ | -------- |
-| Type | xx | 
+| Byte 1 | Byte 2 | Byte 3-4 | Byte 5-6 | Byte 7 | Byte 8-9 | Byte 10-11 | Byte 12-13 | Byte 14-15 | Byte 16-17 | Byte 18 | Byte 19 | Byte 20-21 |
+| ------ | -------- |----|----|----|----|----|----|----|----|----|----|----|
+| Type | Battery | AUX Voltage | Battery Voltage | State of Charge in % | Battery time remaining | Consumed Ah | Battery Current | Yield Today | PV Power | Device State (Off, Bulk, Absorption, Float ...) |  Load output |
 
 ---
 

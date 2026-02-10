@@ -23,7 +23,6 @@ SwitchMe provides a remote-controlled logic output (TTL) and a status LED. It al
 ## Features
 - **Remote Command Processing**: Listens for "ON" and "OFF" serial commands via UART.
 - **Visual Feedback**: Built-in status LED reflects the actual state of the switch.
-- **Integrated Monitoring**: Reports ambient conditions to ensure the switched environment (e.g., equipment cabinet) is within operating range.
 - **Fail-Safe**: Default state (LOW/OFF) on startup.
 
 
