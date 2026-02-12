@@ -96,11 +96,11 @@ Tracking for live stock geo-location and fencing.
 
 Monitoring pivot irrigation systems for movement, water usage and pressure.
 
-*** [CO2Me](./src/CO2Me)**
+## [CO2Me](./src/CO2Me)
 
 Monitoring CO2 levels in greenhouses and warehouses.
 
-*** [SolarMe](./src/SolarME)**
+## [SolarMe](./src/SolarME)
 
 Monitoring of MPPT solar chargers
 
@@ -151,8 +151,8 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 - Switch Status: `uint8_t` (1=On, 0=Off)
 - Distance: `uint16_t` (mm)
 - Voltage/kV: `uint16_t` (kV \* 100)
-- Latitude : `unint32_t` (°)
-- Longitude : `unint32_t` (°)
+- Latitude : `uint32_t` (°)
+- Longitude : `uint32_t` (°)
 - Speed: `uint8_t` (km/h)
 - Course: `uint16_t` (°)
 - hdop: `uint8_t` (0-100)
