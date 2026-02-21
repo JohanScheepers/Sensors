@@ -96,13 +96,17 @@ Tracking for live stock geo-location and fencing.
 
 Monitoring pivot irrigation systems for movement, water usage and pressure.
 
-## [CO2Me](./src/CO2Me)
+### [CO2Me](./src/CO2Me)
 
 Monitoring CO2 levels in greenhouses and warehouses.
 
-## [SolarMe](./src/SolarME)
+### [SolarMe](./src/SolarME)
 
-Monitoring of MPPT solar chargers
+Monitoring of MPPT solar charger
+
+### [HumanMe](./src/HumanMe)
+
+Monitoring of human presence and movement.
 
 ---
 
@@ -131,6 +135,7 @@ All sensor data is encoded in a compact binary format and sent over the mesh net
 | PivotMe     | 14           |
 | CO2Me       | 15           |
 | SolarMe     | 16           |
+| HumanMe     | 17           |
 
 ---
 
@@ -280,6 +285,12 @@ It only repeats the signal from other sensors to the rest of the mesh network an
 | Byte 1 | Byte 2 | Byte 3-4 | Byte 5-6 | Byte 7 | Byte 8-9 | Byte 10-11 | Byte 12-13 | Byte 14-15 | Byte 16-17 | Byte 18 | Byte 19 | Byte 20-21 |
 | ------ | -------- |----|----|----|----|----|----|----|----|----|----|----|
 | Type | Battery | AUX Voltage | Battery Voltage | State of Charge in % | Battery time remaining | Consumed Ah | Battery Current | Yield Today | PV Power | Device State (Off, Bulk, Absorption, Float ...) |  Load output |
+
+**HumanMe (4 bytes total)**
+
+| Byte 1 | Byte 2 | Byte 3-8 | 
+| ------ | -------- | -------- | 
+| Type | Battery | mac address |  
 
 ---
 
