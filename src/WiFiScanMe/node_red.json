@@ -1,0 +1,624 @@
+[
+    {
+        "id": "1960d6e236eb1970",
+        "type": "tab",
+        "label": "Heltec V4 MAC Sniffer",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "552656d36f946b40",
+        "type": "function",
+        "z": "1960d6e236eb1970",
+        "name": "Format Telegram Alert",
+        "func": "// 1. Safety Check - Ensure payload and decoded data exist\nif (!msg.payload || !msg.payload.uplink_message || !msg.payload.uplink_message.decoded_payload) {\n    return null;\n}\n\nvar data = msg.payload.uplink_message.decoded_payload;\nvar vbat = parseFloat(data.voltage) || 0;\nvar now = new Date();\nvar timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });\n\n// --- DUAL SYNC CHECK ---\n// Get current hardware value from the JSON you just received\nvar currentLimit = Math.abs(parseInt(data.rssi_limit || 0));\n\n// Get your target value from the dashboard slider (stored in global memory)\nvar targetLimit = Math.abs(parseInt(global.get(\"gate_rssi_limit\") || 70));\n\n// Logic: Green if the hardware (70) matches your slider (70)\nvar isSynced = (currentLimit === targetLimit);\nvar lightColor = isSynced ? \"green\" : \"yellow\";\n\n// If synced, update the Last Sync timestamp\nif (isSynced) {\n    global.set(\"gate_last_sync\", timeStr);\n}\n\n// --- RSSI & DISTANCE PROCESSING ---\nvar rssi_intruder = data.rssi || 0;\nif (rssi_intruder > 0) { rssi_intruder = -rssi_intruder; }\nvar distance = data.distance_meters || 0;\n\n// --- 2. PREPARE UI MESSAGES (Output 3) ---\nvar uiMsg = {\n    payload: {\n        vbat: vbat.toFixed(3),\n        limit: -currentLimit,\n        intruder: rssi_intruder,\n        distance: distance + \"m\",\n        status: data.status,\n        timestamp: timeStr,\n        lastSync: global.get(\"gate_last_sync\") || \"Geen\"\n    }\n};\n\n// --- 3. PREPARE STATUS LIGHT (Output 4) ---\nvar statusLightMsg = { payload: lightColor };\n\n// --- 4. TELEGRAM & DEBUG LOGIC ---\nif (data.status === \"alert\") {\n    var telegramText = \"🚨 *KLEIN SMALDEEL ALERT* 🚨\\n\";\n    telegramText += \"━━━━━━━━━━━━━━━\\n\";\n    telegramText += \"📍 *Afstand:* ~\" + distance + \"m\\n\";\n    telegramText += \"📶 *Sein:* \" + rssi_intruder + \" dBm\\n\";\n    telegramText += \"🔋 *Battery:* \" + vbat.toFixed(2) + \"V\\n\";\n    telegramText += \"🕒 *Tyd:* \" + timeStr;\n\n    var telegramMsg = {\n        payload: {\n            chatId: \"1097339763\",\n            type: \"message\",\n            content: telegramText,\n            options: { parse_mode: \"Markdown\" }\n        }\n    };\n\n    node.status({ fill: \"red\", shape: \"dot\", text: \"ALERT SENT | Sync: \" + lightColor });\n    return [telegramMsg, telegramMsg, uiMsg, statusLightMsg];\n    \n} else {\n    node.status({ \n        fill: lightColor, \n        shape: isSynced ? \"dot\" : \"ring\", \n        text: \"Sync: \" + lightColor + \" (-\" + currentLimit + \"dBm)\" \n    });\n    return [null, null, uiMsg, statusLightMsg];\n}",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "81a48fd7efe66505"
+            ],
+            [
+                "5f7036ac2f630226"
+            ],
+            [
+                "ea859aaf86cd65e8",
+                "2bfa36264713ce89",
+                "68752b574f39a297",
+                "1b6c5d7ee807b1d9",
+                "d7889a383871eedb",
+                "dd5b6ae31d16d302",
+                "c2b4a56789123456"
+            ],
+            [
+                "8562c4054c15d62a",
+                "1c2fc3d642a79a32",
+                "22cb9576bca41dcc"
+            ]
+        ]
+    },
+    {
+        "id": "81a48fd7efe66505",
+        "type": "telegram sender",
+        "z": "1960d6e236eb1970",
+        "name": "Hetzner_ks_bot",
+        "bot": "a766ceb6c2e803f2",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "85b4839a127efb51",
+        "type": "mqtt in",
+        "z": "1960d6e236eb1970",
+        "name": "Heltec V4",
+        "topic": "v3/heltec-v4-node@ttn/devices/heltec-lora-v4/up",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9793192735fa33db",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 80,
+        "y": 40,
+        "wires": [
+            [
+                "b5b598c74f2c86b4"
+            ]
+        ]
+    },
+    {
+        "id": "5f7036ac2f630226",
+        "type": "debug",
+        "z": "1960d6e236eb1970",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "0b4b898971caf0e4",
+        "type": "ui_chart",
+        "z": "1960d6e236eb1970",
+        "name": "",
+        "group": "d3b1809c4b8e2d36",
+        "order": 2,
+        "width": "17",
+        "height": "4",
+        "label": "Volts",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "3.6",
+        "ymax": "4.3",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 790,
+        "y": 100,
+        "wires": [
+            [
+                "5f7036ac2f630226"
+            ]
+        ]
+    },
+    {
+        "id": "1d48aebc0933f867",
+        "type": "ui_gauge",
+        "z": "1960d6e236eb1970",
+        "name": "Battery Volts",
+        "group": "d3b1809c4b8e2d36",
+        "order": 1,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "volts",
+        "label": "Volts",
+        "format": "{{value}} V",
+        "min": "3.6",
+        "max": "4.3",
+        "colors": [
+            "#b30003",
+            "#e6e600",
+            "#3ccb3a"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 850,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "b5b598c74f2c86b4",
+        "type": "function",
+        "z": "1960d6e236eb1970",
+        "name": "function 28",
+        "func": "// 1. Initialize context to track the device\nvar alertedDevices = context.get(\"alertedDevices\") || {};\nvar now = Date.now();\n\n// 2. Configuration\nvar cooldown = 9 * 60 * 1000; // 9 Minutes\nvar maxAlerts = 2; \n\n// 3. Extract MAC safely\nvar data = msg.payload.uplink_message.decoded_payload;\nif (!data) return null;\n\nvar mac = data.mac_hash || \"Unknown\";\n\nif (!alertedDevices[mac]) {\n    alertedDevices[mac] = { count: 0, lastTime: 0 };\n}\n\nvar device = alertedDevices[mac];\n\n// 4. Reset counter if cooldown has passed\nif (now - device.lastTime > cooldown) {\n    device.count = 0;\n}\n\n// 5. Alert Blocking Logic\nif (data.status === \"alert\" && device.count >= maxAlerts) {\n    var minsAgo = Math.round((now - device.lastTime) / 60000);\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"Silent: \" + mac + \" (\" + minsAgo + \"m ago)\" });\n    return null; \n}\n\n// 6. Update state\nif (data.status === \"alert\") {\n    device.count++;\n}\ndevice.lastTime = now;\nalertedDevices[mac] = device;\ncontext.set(\"alertedDevices\", alertedDevices);\n\n// 7. Pass metadata to the next node\nmsg.alertCount = device.count;\n\nnode.status({ \n    fill: data.status === \"alert\" ? \"red\" : \"green\", \n    shape: \"dot\", \n    text: data.status.toUpperCase() + \" | \" + mac + \" (Cnt: \" + device.count + \")\" \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 40,
+        "wires": [
+            [
+                "552656d36f946b40"
+            ]
+        ]
+    },
+    {
+        "id": "1c2fc3d642a79a32",
+        "type": "ui_slider",
+        "z": "1960d6e236eb1970",
+        "name": "",
+        "label": "Hek Drempel: {{value}}",
+        "tooltip": "",
+        "group": "d3b1809c4b8e2d36",
+        "order": 9,
+        "width": "10",
+        "height": 1,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "-100",
+        "max": "-30",
+        "step": 1,
+        "className": "",
+        "x": 270,
+        "y": 240,
+        "wires": [
+            [
+                "3e5666117dcdc943"
+            ]
+        ]
+    },
+    {
+        "id": "8562c4054c15d62a",
+        "type": "ui_template",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "name": "Status Light",
+        "order": 11,
+        "width": 14,
+        "height": 2,
+        "format": "<div style=\"display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333;\">\n    <span style=\"color: #eee; font-weight: bold; font-size: 14px;\">Hek Sinkronisasie</span>\n    <div style=\"width: 16px; height: 16px; border-radius: 50%; \n                background-color: {{msg.payload}}; \n                box-shadow: 0 0 12px {{msg.payload}}; \n                transition: all 0.5s ease;\">\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 410,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e5666117dcdc943",
+        "type": "function",
+        "z": "1960d6e236eb1970",
+        "name": "function 4",
+        "func": "// 1. Get input from the sliders (RSSI or Heartbeat)\nvar input = parseInt(msg.payload);\n\n// 2. Retrieve existing values from Global Memory\n// We set defaults here (70 and 10) in case the globals are empty/null\nvar threshold = global.get(\"gate_rssi_limit\") || 70;\nvar heartbeat = global.get(\"gate_heartbeat_interval\") || 10;\n\n// 3. Update the specific value based on which slider was moved\nif (input < 0) { \n    // Slider was RSSI (e.g., -95)\n    threshold = Math.abs(input); \n    global.set(\"gate_rssi_limit\", threshold); \n} else if (input > 0) {\n    // Slider was Heartbeat (e.g., 15)\n    heartbeat = input;\n    global.set(\"gate_heartbeat_interval\", heartbeat);\n}\n\n// 4. Final Safety: Ensure we never send 0 to the hardware\nif (threshold === 0) threshold = 70;\nif (heartbeat === 0) heartbeat = 10;\n\n// 5. Build the TTN Downlink (2 Bytes: [RSSI, Heartbeat])\nvar dlink = {\n    payload: {\n        \"downlinks\": [{\n            \"frm_payload\": Buffer.from([threshold, heartbeat]).toString('base64'),\n            \"f_port\": 2,\n            \"confirmed\": false, \n            \"priority\": \"NORMAL\"\n        }]\n    }\n};\n\n// 6. Update UI Status to 'Blue' (Command Queued in TTN)\nnode.status({\n    fill: \"blue\", \n    shape: \"dot\", \n    text: \"Queued: -\" + threshold + \"dBm, \" + heartbeat + \"m\"\n});\n\n// Output 1: To MQTT Out | Output 2: To Status Light Template\nreturn [dlink, { payload: \"blue\" }];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "72271668f8f4dff6"
+            ],
+            [
+                "8562c4054c15d62a"
+            ]
+        ]
+    },
+    {
+        "id": "ea859aaf86cd65e8",
+        "type": "ui_text",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "order": 3,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Laas Bespeur",
+        "format": "{{msg.payload.intruder}} dBm",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 640,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "d7889a383871eedb",
+        "type": "ui_text",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "order": 4,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Hek Drempel",
+        "format": "{{msg.payload.limit}} dBm",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 550,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "2bfa36264713ce89",
+        "type": "ui_text",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "order": 5,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Laas Gesien",
+        "format": "{{msg.payload.timestamp}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 510,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "68752b574f39a297",
+        "type": "change",
+        "z": "1960d6e236eb1970",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.vbat",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 140,
+        "wires": [
+            [
+                "1d48aebc0933f867"
+            ]
+        ]
+    },
+    {
+        "id": "1b6c5d7ee807b1d9",
+        "type": "change",
+        "z": "1960d6e236eb1970",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.vbat",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 100,
+        "wires": [
+            [
+                "0b4b898971caf0e4"
+            ]
+        ]
+    },
+    {
+        "id": "22cb9576bca41dcc",
+        "type": "ui_slider",
+        "z": "1960d6e236eb1970",
+        "name": "",
+        "label": "Hartklop Interval (min): {{value}}",
+        "tooltip": "",
+        "group": "d3b1809c4b8e2d36",
+        "order": 13,
+        "width": "10",
+        "height": "1",
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "1",
+        "max": "60",
+        "step": 1,
+        "className": "",
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "3e5666117dcdc943"
+            ]
+        ]
+    },
+    {
+        "id": "72271668f8f4dff6",
+        "type": "mqtt out",
+        "z": "1960d6e236eb1970",
+        "name": "TTN - Heltec V4",
+        "topic": "v3/heltec-v4-node@ttn/devices/heltec-lora-v4/down/push",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9793192735fa33db",
+        "x": 140,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "dd5b6ae31d16d302",
+        "type": "ui_text",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "order": 14,
+        "width": "7",
+        "height": "1",
+        "name": "",
+        "label": "Afstand vanaf Hek",
+        "format": "{{msg.payload.distance}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 610,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "c2b4a56789123456",
+        "type": "ui_text",
+        "z": "1960d6e236eb1970",
+        "group": "d3b1809c4b8e2d36",
+        "order": 15,
+        "width": "7",
+        "height": "1",
+        "name": "",
+        "label": "Laas Gesinkroniseer",
+        "format": "{{msg.payload.lastSync}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 700,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c1d7e2795797c752",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 6,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "9c016b0dfaf1f3e8",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 7,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "271a825a1fd792c3",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 8,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "03ca9e015bd0ee1b",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 10,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "45d8accb16785106",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 12,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "a220c35d986b2a4d",
+        "type": "ui_spacer",
+        "z": "1960d6e236eb1970",
+        "name": "spacer",
+        "group": "d3b1809c4b8e2d36",
+        "order": 13,
+        "width": 7,
+        "height": 1
+    },
+    {
+        "id": "a766ceb6c2e803f2",
+        "type": "telegram bot",
+        "botname": "@Hetzner_ks_bot",
+        "usernames": "Smaldeel",
+        "chatids": "1097339763",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "9793192735fa33db",
+        "type": "mqtt-broker",
+        "name": "Heltec V4",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "8883",
+        "tls": "1319fbc76549af18",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d3b1809c4b8e2d36",
+        "type": "ui_group",
+        "name": "Klein Smaldeel",
+        "tab": "bcf92ede5e3a0592",
+        "order": 1,
+        "disp": true,
+        "width": 21,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1319fbc76549af18",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "bcf92ede5e3a0592",
+        "type": "ui_tab",
+        "name": "Klein Smaldeel",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "313e499d2aafa814",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-telegrambot": "17.0.5",
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]

@@ -11,6 +11,7 @@ FridgeMe combines ambient environment monitoring with a highly accurate remote t
 - **Ambient Sensor**: BME280 (I2C 0x76)
 - **Internal Probe**: DS18B20 (Waterproof Stainless Steel)
 - **Interface**: OneWire (Pin **GPIO 4**)
+- **Power**: 3.3V and 2 AA batteries
 
 ## Binary Data Payload
 
