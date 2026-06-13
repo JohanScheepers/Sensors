@@ -50,6 +50,8 @@ const admin = require('firebase-admin');
 // Array of tokens fetched from your MySQL database
 const registrationTokens = ['bk3rn156p9m...', 'another_token_abc...'];
 
+function sendSensorAlert(tokens, alertMessage, targetPlatform) {
+  // 1. Build the base message that applies to BOTH platforms
 const message = {
   notification: {
     title: '⚠️ Critical Sensor Alert',
@@ -63,6 +65,30 @@ const message = {
   tokens: registrationTokens,
 };
 
+// 2. Add iOS-Specific Tuning if needed
+  if (targetPlatform === 'ios') {
+    message.apns = {
+      payload: {
+        aps: {
+          sound: 'critical_alert.caf', // Custom iOS alert sound
+          badge: 1,                    // Increments app icon badge
+          'content-available': 1       // Wakes up the app in the background
+        }
+      }
+    };
+  }
+
+  // 3. Add Android-Specific Tuning if needed
+  if (targetPlatform === 'android') {
+    message.android = {
+      priority: 'high',
+      notification: {
+        sound: 'critical_alert_android', // Custom Android sound
+        channelId: 'critical_alerts'     // Required for Android 8.0+ notification channels
+      }
+    };
+  }
+
 // Send the message
 admin.messaging().sendEachForMulticast(message)
   .then((response) => {
@@ -73,6 +99,7 @@ admin.messaging().sendEachForMulticast(message)
       // Loop through responses and delete bad tokens from MySQL
     }
   });
+}
   ```
 
   ### 3. Critical Gotchas for IoT Push Notifications
