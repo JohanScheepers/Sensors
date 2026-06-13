@@ -1,3 +1,3 @@
-# app
+<img src="./assets/icon.png" width="500" style="border-radius: 12px;"/>
 
-A new Flutter project.
+# Sensors App
