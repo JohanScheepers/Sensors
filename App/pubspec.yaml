@@ -1,7 +1,5 @@
-name: app
-description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+name: Sensor
+description: "My Sensor Project."
 
 environment:
   sdk: ^3.10.4
