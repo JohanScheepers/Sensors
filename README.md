@@ -294,6 +294,15 @@ It only repeats the signal from other sensors to the rest of the mesh network an
 
 _Developed with PlatformIO for professional ARM-based embedded development._
 
+## Backend
+
+For more info on architecture  [backend](backend.md) you can read here for my current thoughts on how to structure this project.
+
+For information on [FMC](fmc.md) you can read here. There are also the [FMC Rules Trigger](fmc_rules_trigger.md) and [FMC Tokens Life Cycle](fmc_tokens_lifecycle.md) for more details.
+
+---
+
+
 ## License
 
 This project is proprietary and confidential. All Rights Reserved. See the [LICENSE](LICENSE) file for details.
