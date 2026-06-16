@@ -298,6 +298,17 @@ _Developed with PlatformIO for professional ARM-based embedded development._
 
 For more info on architecture  [backend](backend.md) you can read here for my current thoughts on how to structure this project.
 
+Currently I am weight my options up on using the following DB.
+
+1. Firebase for User Authentication, 
+2. MySQL for business logic
+ * users (id, firebase_uid, email, company_id, created_at, fcm_token)
+ * devices_metrics (id, mac_address, hardware_type, firmware_version, installation_date, status, metric (name, unit))
+ * device_assignments (customer_id, device_id)
+ * device_alert_configs
+ * device_alert_state_tracker
+ 3. InfluxDB
+
 For information on [FMC](fmc.md) you can read here. There are also the [FMC Rules Trigger](fmc_rules_trigger.md) and [FMC Tokens Life Cycle](fmc_tokens_lifecycle.md) for more details.
 
 ---
